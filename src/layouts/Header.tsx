@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styles/styled";
 import { css } from "@emotion/core";
 
-const menus: string[] = ["Menu1", "Menu2", "Menu3", "Menu4", "Menu5"];
+const menus: { label: string; link: string }[] = [
+  { label: "Home", link: "/" },
+  { label: "Guide", link: "/guide" },
+  { label: "Menu", link: "#" },
+  { label: "Menu", link: "#" },
+  { label: "Menu", link: "#" },
+];
 
 const Header: React.FC = () => {
   const [isTop, setIsTop] = useState<boolean>(true);
@@ -30,9 +36,9 @@ const Header: React.FC = () => {
         <Logo />
         <Center />
         <Menus>
-          {menus.map((item) => (
-            <Menu key={item} isTop={isTop} href={"#"}>
-              <MenuName>{item}</MenuName>
+          {menus.map((item, index) => (
+            <Menu key={index} isTop={isTop} href={item.link}>
+              <MenuName>{item.label}</MenuName>
             </Menu>
           ))}
         </Menus>
