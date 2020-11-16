@@ -11,7 +11,7 @@ const FONT_SECONDARY = css`
 export { FONT_PRIMARY, FONT_SECONDARY };
 
 export default css`
-  @import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500|Noto+Sans:400,500&amp;subset=korean");
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap");
   @import url("https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap");
 
   html,
