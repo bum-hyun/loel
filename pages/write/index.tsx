@@ -17,15 +17,7 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
   <Editor {...props} forwardedRef={ref as React.MutableRefObject<EditorType>} />
 ));
 
-interface Props extends EditorProps {
-  onChange?(value: string): void;
-
-  valueType?: "markdown" | "html";
-}
-
-const WysiwygEditor: React.FC<Props> = (props) => {
-  const { initialValue, previewStyle, height, initialEditType, useCommandShortcut } = props;
-
+const WysiwygEditor: React.FC<{}> = () => {
   const editorRef = React.useRef<EditorType>();
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
@@ -33,24 +25,23 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     }
 
     const instance = editorRef.current.getInstance();
-    const valueType = props.valueType || "markdown";
 
-    props.onChange(valueType === "markdown" ? instance.getMarkdown() : instance.getHtml());
-  }, [props, editorRef]);
+    console.log(instance.getMarkdown());
+  }, [editorRef]);
 
   const content = ["```typescript", "console.log('here')", "```"].join("\n");
 
   return (
     <div>
       <EditorWithForwardedRef
-        {...props}
-        initialValue={content || "hello react editor world!"}
-        previewStyle={previewStyle || "vertical"}
-        height={height || "600px"}
-        initialEditType={initialEditType || "markdown"}
-        useCommandShortcut={useCommandShortcut || true}
+        initialValue={content}
+        previewStyle={"vertical"}
+        height={"600px"}
+        initialEditType={"markdown"}
+        useCommandShortcut={true}
         ref={editorRef}
         previewHighlight={false}
+        onChange={handleChange}
       />
     </div>
   );

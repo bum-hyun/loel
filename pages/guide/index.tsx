@@ -65,5 +65,5 @@ const Wrap = styled.div`
 const Label = styled.div`
   margin: 10px 0;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 500;
 `;
