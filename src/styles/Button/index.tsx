@@ -29,6 +29,28 @@ Button.defaultProps = {
 
 export default Button;
 
+interface IVariant {
+  primary: string;
+  secondary: string;
+  success: string;
+  danger: string;
+  warning: string;
+  info: string;
+  dark: string;
+}
+
+interface ISize {
+  small: string;
+  medium: string;
+  big: string;
+}
+
+interface IShape {
+  default: string;
+  circle: string;
+  square: string;
+}
+
 const variant = {
   primary: css`
     background: #404d67;
@@ -128,7 +150,7 @@ const StyledButton = styled.button<IButton>`
 
   ${(p) => {
     if (p.variant) {
-      return variant[p.variant];
+      return variant[p.variant as keyof IVariant];
     } else {
       return variant.primary;
     }
@@ -136,7 +158,7 @@ const StyledButton = styled.button<IButton>`
 
   ${(p) => {
     if (p.size) {
-      return size[p.size];
+      return size[p.size as keyof ISize];
     } else {
       return size.medium;
     }
@@ -144,7 +166,7 @@ const StyledButton = styled.button<IButton>`
 
   ${(p) => {
     if (p.shape) {
-      return shape[p.shape];
+      return shape[p.shape as keyof IShape];
     } else {
       return shape.default;
     }

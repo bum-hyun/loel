@@ -5,7 +5,8 @@ import { Editor as EditorType, EditorProps } from "@toast-ui/react-editor";
 import { TuiEditorWithForwardedProps } from "components/TuiEditorWrapper";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import "highlight.js/styles/github.css";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "highlight.js/styles/railscasts.css";
 
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -37,7 +38,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     props.onChange(valueType === "markdown" ? instance.getMarkdown() : instance.getHtml());
   }, [props, editorRef]);
 
-  const content = ["```youtube", "XyenY12fzAk", "```"].join("\n");
+  const content = ["```typescript", "console.log('here')", "```"].join("\n");
 
   return (
     <div>
@@ -49,6 +50,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         initialEditType={initialEditType || "markdown"}
         useCommandShortcut={useCommandShortcut || true}
         ref={editorRef}
+        previewHighlight={false}
       />
     </div>
   );

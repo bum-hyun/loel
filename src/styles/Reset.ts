@@ -422,4 +422,11 @@ export default css`
     box-sizing: border-box;
     outline: 0;
   }
+
+  .tui-editor-contents pre,
+  .tui-editor-contents code,
+  .tui-md-code,
+  .tui-md-code-block {
+    font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  }
 `;
