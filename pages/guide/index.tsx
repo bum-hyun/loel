@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card } from "styles";
+import { Button, Card, Collapse, Panel } from "styles";
 import styled from "styles/styled";
 import DefaultLayout from "layouts";
 
@@ -29,13 +29,13 @@ const Guide: React.FC = () => {
         </Wrap>
       </Component>
       <Component>
-        <Label>카드</Label>
+        <Label>컬랩스</Label>
         <Wrap>
-          <Card title={"써보겠습니다아아아아아아아아아아아아길게길게한번써보겠습니"} thumbnail={<img src={"./background.jpg"} alt={"image"} />}>
-            길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.
-          </Card>
-          <Card title={"Hello"}>길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.</Card>
-          <Card>길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.</Card>
+          <Collapse active={2}>
+            <Panel title={"컬랩스"}>Hello</Panel>
+            <Panel title={"컬랩스"}>Hello</Panel>
+            <Panel title={"컬랩스"}>Hello</Panel>
+          </Collapse>
         </Wrap>
       </Component>
     </Container>
@@ -45,7 +45,7 @@ const Guide: React.FC = () => {
 export default DefaultLayout(Guide);
 
 const Container = styled.div`
-  padding: 1rem;
+  padding: 1rem 1rem 5rem;
 `;
 
 const Component = styled.div`
