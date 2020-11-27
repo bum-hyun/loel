@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styles/styled";
 
 interface ICollapse {
-  active?: number;
+  active?: number | number[];
+  accordion?: boolean;
   children: React.ReactNode;
 }
 
@@ -17,17 +18,33 @@ interface ICollapsePanel {
   children: React.ReactNode;
 }
 
-const Collapse: React.FC<ICollapse> = ({ active, children }) => {
-  const [activeIndex, setActiveIndex] = useState<number>(active ? active : 0);
+const Collapse: React.FC<ICollapse> = ({ active, accordion, children }) => {
+  const [activeIndex, setActiveIndex] = useState<number | number[]>(active ? active : accordion ? 0 : []);
 
-  const showContent = (index: number) => setActiveIndex(index);
+  const showContent = (index: number) => {
+    if (accordion) {
+      setActiveIndex(index);
+    } else {
+      let temp;
+      if ((activeIndex as number[]).includes(index)) {
+        temp = (activeIndex as number[]).filter((item) => item !== index);
+      } else {
+        temp = (activeIndex as number[]).concat(index);
+      }
+      setActiveIndex(temp);
+    }
+  };
 
   const childrenWithProps = React.Children.map(children, (child, index) => {
-    return React.cloneElement(child as React.ReactElement, {
-      showContent,
-      index,
-      isActive: index === activeIndex,
-    });
+    if ((child as React.ReactElement)?.type === Panel) {
+      return React.cloneElement(child as React.ReactElement, {
+        showContent,
+        index,
+        isActive: accordion ? index === activeIndex : (activeIndex as number[]).includes(index),
+      });
+    } else {
+      throw new Error("패널 컴포넌트를 넣어주세요.");
+    }
   });
 
   return <Container>{childrenWithProps}</Container>;

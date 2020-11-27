@@ -31,7 +31,7 @@ const Guide: React.FC = () => {
       <Component>
         <Label>컬랩스</Label>
         <Wrap>
-          <Collapse active={2}>
+          <Collapse active={[0, 1]} accordion>
             <Panel title={"컬랩스"}>Hello</Panel>
             <Panel title={"컬랩스"}>Hello</Panel>
             <Panel title={"컬랩스"}>Hello</Panel>
