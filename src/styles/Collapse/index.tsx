@@ -65,7 +65,9 @@ export const Panel: React.FC<ICollapsePanel> = ({ title, children, ...rest }) =>
 
   return (
     <Wrap>
-      <Header onClick={() => showContent(index)}>{title}</Header>
+      <Header index={index} onClick={() => showContent(index)}>
+        {title}
+      </Header>
       {ref && (
         <ContentWrap active={isActive} ref={ref} height={height}>
           <Content>{children}</Content>
@@ -77,24 +79,26 @@ export const Panel: React.FC<ICollapsePanel> = ({ title, children, ...rest }) =>
 
 const Container = styled.div`
   width: 100%;
+  border: 1px solid #e6e6e6;
+  border-radius: 2px;
 `;
 
 const Wrap = styled.div`
   width: 100%;
-  border-radius: 4px;
 `;
 
-const Header = styled.div`
+const Header = styled.div<{ index: number }>`
   padding: 1rem;
-  color: #fff;
-  background-color: #000;
+  color: #000;
+  background-color: #ddd;
+  ${(p) => p.index === 0 && "border-top-left-radius: 4px; border-top-right-radius: 4px;"}
   cursor: pointer;
 `;
 
 const ContentWrap = styled.div<{ active: boolean; height: number }>`
   padding: 0 1rem;
   height: ${(p) => (p.active ? p.height : "0")}px;
-  background-color: #ddd;
+  background-color: #fff;
   overflow: hidden;
   transition: height 0.2s ease-out;
 `;
