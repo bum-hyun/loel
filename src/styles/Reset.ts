@@ -131,6 +131,7 @@ export default css`
     height: 100%;
     color: #555;
     ${FONT_PRIMARY}
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     -webkit-font-smoothing: antialiased;
   }
@@ -428,9 +429,5 @@ export default css`
   .tui-md-code,
   .tui-md-code-block {
     font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-  }
-
-  body {
-    overflow-x: hidden;
   }
 `;
