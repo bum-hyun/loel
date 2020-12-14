@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "lint": "eslint './src/**/*.{ts,tsx}' && stylelint './src/**/*.{ts,tsx}'",
+    "lint": "eslint ./src/**/*.{ts,tsx} && stylelint ./src/**/*.{ts,tsx}",
     "build": "next build",
     "start": "next start"
   },
