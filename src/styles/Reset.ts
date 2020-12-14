@@ -429,4 +429,8 @@ export default css`
   .tui-md-code-block {
     font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   }
+
+  body {
+    overflow-x: hidden;
+  }
 `;

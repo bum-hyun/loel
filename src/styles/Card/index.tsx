@@ -15,13 +15,15 @@ interface ICardWrap {
 
 const Card: React.FC<ICard> = ({ width, title, thumbnail, children }) => {
   return (
-    <Wrap width={width}>
-      {title && <CardHeader>{title}</CardHeader>}
-      {thumbnail && <ThumbnailWrap>{thumbnail}</ThumbnailWrap>}
-      <CardBody>
-        <p>{children}</p>
-      </CardBody>
-    </Wrap>
+    <Outer>
+      <Wrap width={width}>
+        {title && <CardHeader>{title}</CardHeader>}
+        {thumbnail && <ThumbnailWrap>{thumbnail}</ThumbnailWrap>}
+        <CardBody>
+          <p>{children}</p>
+        </CardBody>
+      </Wrap>
+    </Outer>
   );
 };
 
@@ -32,10 +34,15 @@ const LongSentence = css`
   overflow: hidden;
 `;
 
+const Outer = styled.div`
+  padding: 1rem;
+  width: 100%;
+`;
+
 const Wrap = styled.div<ICardWrap>`
   position: relative;
-  margin: 1rem;
-  width: ${(p) => (p.width ? p.width : 240)}px;
+  width: 100%;
+  max-width: 100%;
   height: 100%;
   font-size: 1rem;
   line-height: 1.2;

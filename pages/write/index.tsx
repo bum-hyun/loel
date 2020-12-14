@@ -17,7 +17,7 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
   <Editor {...props} forwardedRef={ref as React.MutableRefObject<EditorType>} />
 ));
 
-const WysiwygEditor: React.FC<{}> = () => {
+const WysiwygEditor: React.FC = () => {
   const editorRef = React.useRef<EditorType>();
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
@@ -25,8 +25,6 @@ const WysiwygEditor: React.FC<{}> = () => {
     }
 
     const instance = editorRef.current.getInstance();
-
-    console.log(instance.getMarkdown());
   }, [editorRef]);
 
   const content = ["```typescript", "console.log('here')", "```"].join("\n");
