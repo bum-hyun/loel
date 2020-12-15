@@ -2,17 +2,26 @@ import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import Select, { ValueType, OptionTypeBase, Props as SelectProps } from "react-select";
 import { DefaultLayout } from "layouts";
+import { Button } from "styles";
 import { Editor as EditorType, EditorProps } from "@toast-ui/react-editor";
 import { TuiEditorWithForwardedProps } from "components/TuiEditorWrapper";
+
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "highlight.js/styles/railscasts.css";
 import styled from "styles/styled";
-import { Button } from "styles";
 
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
+}
+
+interface IArticleData {
+  category?: string | null;
+  html?: string;
+  markdown?: string;
+  title?: string;
+  created?: string;
 }
 
 const options: OptionTypeBase[] = [
@@ -27,7 +36,7 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
 ));
 
 const WysiwygEditor: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<SelectProps | null>(null);
+  const [data, setData] = useState<IArticleData>({});
   const editorRef = React.useRef<EditorType>();
 
   const handleChange = React.useCallback(() => {
@@ -36,18 +45,24 @@ const WysiwygEditor: React.FC = () => {
     }
 
     const instance = editorRef.current.getInstance();
+    setData({ html: instance.getHtml(), markdown: instance.getMarkdown() });
   }, [editorRef]);
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {
     if (newValue) {
-      setSelectedOption(newValue.value);
+      setData({ ...data, category: newValue.value });
     } else {
-      setSelectedOption(null);
+      setData({ ...data, category: null });
     }
   };
 
+  const handleTitle = (event: React.ChangeEvent<{ value: string }>) => {
+    const { value } = event.target;
+    setData({ ...data, title: value });
+  };
+
   const Submit = () => {
-    console.log("등록");
+    console.log(data);
   };
 
   const content = ["```typescript", "console.log('here')", "```"].join("\n");
@@ -55,13 +70,13 @@ const WysiwygEditor: React.FC = () => {
   return (
     <Wrap>
       <RowWrap>
-        <SelectWrap instanceId={"select"} defaultValue={selectedOption} onChange={handleSelect} options={options} isClearable={true} />
+        <SelectWrap instanceId={"select"} defaultValue={data.category} onChange={handleSelect} options={options} isClearable={true} />
         <Button variant={"success"} height={38} onClick={Submit}>
           등록
         </Button>
       </RowWrap>
       <RowWrap>
-        <TitleInput placeholder={"제목을 입력해주세요."} />
+        <TitleInput onChange={handleTitle} placeholder={"제목을 입력해주세요."} />
       </RowWrap>
       <EditorWithForwardedRef
         initialValue={content}
