@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styles/styled";
 import { css } from "@emotion/core";
 
-interface IButton {
+interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width?: number;
   height?: number;
   variant?: string;
@@ -12,9 +12,9 @@ interface IButton {
   children: React.ReactNode;
 }
 
-const Button: React.FC<IButton> = ({ width, height, size, variant, shape, disabled, children }) => {
+const Button: React.FC<IButton> = ({ width, height, size, variant, shape, disabled, children, ...rest }) => {
   return (
-    <StyledButton width={width} height={height} variant={variant} size={size} shape={shape} disabled={disabled}>
+    <StyledButton width={width} height={height} variant={variant} size={size} shape={shape} disabled={disabled} {...rest}>
       {children}
     </StyledButton>
   );
@@ -109,19 +109,19 @@ const shape = {
 
 const size = {
   small: css`
+    padding: 0 14px;
     height: 28px;
     font-size: 12px;
-    padding: 0 14px;
   `,
   medium: css`
+    padding: 0 16px;
     height: 32px;
     font-size: 16px;
-    padding: 0 16px;
   `,
   big: css`
+    padding: 0 24px;
     height: 40px;
     font-size: 18px;
-    padding: 0 24px;
   `,
 };
 
@@ -129,7 +129,8 @@ const StyledButton = styled.button<IButton>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
+  width: ${(p) => p.width && `${p.width}px`};
+  height: ${(p) => p.height && `${p.height}px`};
   border: none;
   cursor: pointer;
   outline: none;

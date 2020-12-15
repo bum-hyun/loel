@@ -4,13 +4,13 @@ import { css } from "@emotion/core";
 
 const menus: { label: string; link: string }[] = [
   { label: "Home", link: "/" },
-  { label: "Guide", link: "/guide" },
   { label: "Write", link: "/write" },
   { label: "Menu", link: "#" },
-  { label: "Menu", link: "#" },
+  { label: "Guide", link: "/guide" },
+  { label: "Setting", link: "/setting" },
 ];
 
-const Header: React.FC = () => {
+const Header: React.FC<ILayoutType> = () => {
   const [isTop, setIsTop] = useState<boolean>(true);
 
   useEffect(() => {
