@@ -23,16 +23,16 @@
     ],
     "noEmit": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "src/*": ["src/*"],
+      "@styles/*": ["src/styles/*"]
+    }
   },
   "include": [
     "./src/**/*"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "paths": {
-    "src/*": ["src/*"],
-    "@styles/*": ["src/styles/*"]
-  }
+  ]
 }

@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import Select, { ValueType, OptionTypeBase, Props as SelectProps } from "react-select";
+import service from "../../utils/service";
+import Select, { ValueType, OptionTypeBase } from "react-select";
 import { DefaultLayout } from "layouts";
 import { Button } from "styles";
 import { Editor as EditorType, EditorProps } from "@toast-ui/react-editor";
@@ -17,11 +18,11 @@ interface EditorPropsWithHandlers extends EditorProps {
 }
 
 interface IArticleData {
+  email?: string;
   category?: string | null;
   html?: string;
   markdown?: string;
   title?: string;
-  created?: string;
 }
 
 const options: OptionTypeBase[] = [
@@ -36,7 +37,7 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
 ));
 
 const WysiwygEditor: React.FC = () => {
-  const [data, setData] = useState<IArticleData>({});
+  const [data, setData] = useState<IArticleData>({ email: "ru_bryunak@naver.com" });
   const editorRef = React.useRef<EditorType>();
 
   const handleChange = React.useCallback(() => {
@@ -45,7 +46,7 @@ const WysiwygEditor: React.FC = () => {
     }
 
     const instance = editorRef.current.getInstance();
-    setData({ html: instance.getHtml(), markdown: instance.getMarkdown() });
+    setData({ ...data, html: instance.getHtml(), markdown: instance.getMarkdown() });
   }, [editorRef]);
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {
@@ -61,8 +62,14 @@ const WysiwygEditor: React.FC = () => {
     setData({ ...data, title: value });
   };
 
-  const Submit = () => {
-    console.log(data);
+  const Submit = async () => {
+    const result = await service.post("http://localhost:8002/post/create", data);
+    console.log(result);
+  };
+
+  const addImageBlobHook = (blob: any, callback: any) => {
+    console.log(blob);
+    console.log(callback);
   };
 
   const content = ["```typescript", "console.log('here')", "```"].join("\n");
@@ -87,6 +94,7 @@ const WysiwygEditor: React.FC = () => {
         ref={editorRef}
         previewHighlight={false}
         onChange={handleChange}
+        hooks={{ addImageBlobHook }}
       />
     </Wrap>
   );

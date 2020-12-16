@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import SectionTitle from "../src/components/SectionTitle";
 import { Card } from "../src/styles";
+import service from "../utils/service";
 
 function Home() {
+  useEffect(() => {
+    service.post("http://localhost:8002/v1/token", { email: "ru_bryunak@naver.com" }).then((r) => {
+      console.log(r.data);
+      service.get("http://localhost:8002/v1/test", { headers: { authorization: r.data.token } }).then((r) => console.log(r));
+    });
+  }, []);
+
   return (
     <>
       <LeftWrap>
