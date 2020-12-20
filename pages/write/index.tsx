@@ -17,14 +17,6 @@ interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
 }
 
-interface IArticleData {
-  email?: string;
-  category?: string | null;
-  html?: string;
-  markdown?: string;
-  title?: string;
-}
-
 const options: OptionTypeBase[] = [
   { value: "chocolate", label: "Chocolate" },
   { value: "strawberry", label: "Strawberry" },
@@ -37,7 +29,7 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
 ));
 
 const WysiwygEditor: React.FC = () => {
-  const [data, setData] = useState<IArticleData>({ email: "ru_bryunak@naver.com" });
+  const [data, setData] = useState<IPost>({ email: "ru_bryunak@naver.com" });
   const editorRef = React.useRef<EditorType>();
 
   const handleChange = () => {

@@ -1,27 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import { Card } from "../src/styles";
 import service from "../utils/service";
+import { useRouter } from "next/router";
 
-function Home() {
+const Home: React.FC = () => {
+  const router = useRouter();
+
+  const [posts, setPosts] = useState<any[] | null>([]);
+
+  const decodeHTML = (html: string) => {
+    const content = html.replace(/(<([^>]+)>)/gi, "");
+    return content.substring(0, 150);
+  };
+
+  const readPost = (link: string) => {
+    router.push(link);
+  };
+
   useEffect(() => {
-    service.post("http://localhost:8002/v1/token", { email: "ru_bryunak@naver.com" }).then((r) => {
-      service.get("http://localhost:8002/v1/test", { headers: { authorization: r.data.token } }).then((r) => console.log(r));
-    });
+    async function getData() {
+      const { data } = await service.get(`http://localhost:8002/all`);
+      setPosts(data.data);
+    }
+    getData();
   }, []);
 
   return (
-    <SectionWrap>
-      <Title>Title</Title>
-      <CardWrapper>
-        <Card title={"써보겠습니다아아아아아아아아아아아아길게길게한번써보겠습니"} thumbnail={<img src={"./background.jpg"} alt={"image"} />}>
-          길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.
-        </Card>
-      </CardWrapper>
-    </SectionWrap>
+    <>
+      {posts &&
+        Object.entries(posts!).map((item, index) => {
+          return (
+            <SectionWrap key={index}>
+              {item[1].length > 0 && (
+                <>
+                  <Title>{item[0]}</Title>
+                  <CardWrapper>
+                    {item[1].map((item2: any) => {
+                      return (
+                        <Card
+                          key={item2.id}
+                          title={item2.title}
+                          onClick={() => readPost(`/${item2.category}/${item2.id}`)}
+                          thumbnail={<img src={"./background.jpg"} alt={"image"} />}
+                        >
+                          {decodeHTML(item2.html)}
+                        </Card>
+                      );
+                    })}
+                  </CardWrapper>
+                </>
+              )}
+            </SectionWrap>
+          );
+        })}
+    </>
   );
-}
+};
 
 export default DefaultLayout(Home);
 

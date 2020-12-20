@@ -7,15 +7,16 @@ interface ICard {
   width?: number;
   thumbnail?: React.ReactNode;
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
 interface ICardWrap {
   width?: number;
 }
 
-const Card: React.FC<ICard> = ({ width, title, thumbnail, children }) => {
+const Card: React.FC<ICard> = ({ width, title, onClick, thumbnail, children }) => {
   return (
-    <Outer>
+    <Outer className={"card"} onClick={onClick}>
       <Wrap width={width}>
         {title && <CardHeader>{title}</CardHeader>}
         {thumbnail && <ThumbnailWrap>{thumbnail}</ThumbnailWrap>}

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styled from "styles/styled";
 import service from "../../utils/service";
@@ -51,20 +50,20 @@ const Categories: React.FC = () => {
             if (!item.children) {
               return (
                 <ParentCategory key={item.category}>
-                  <Link href={`/${item.link}`}>{item.category}</Link>
+                  <Link href={`/${item.link}?page=1&per=20`}>{item.category}</Link>
                 </ParentCategory>
               );
             } else {
               return (
                 <div key={item.category}>
                   <ParentCategory key={item.category}>
-                    <Link href={`/${item.link}`}>{item.category}</Link>
+                    <Link href={`/${item.link}?page=1&per=20`}>{item.category}</Link>
                   </ParentCategory>
                   <ChildCategoryWrap>
                     {item.children.map((item2) => {
                       return (
                         <ChildCategory key={item2.category}>
-                          <Link href={`/${item2.link}`}>{item2.category}</Link>
+                          <Link href={`/${item2.link}?page=1&per=20`}>{item2.category}</Link>
                         </ChildCategory>
                       );
                     })}
@@ -87,6 +86,8 @@ const Border = styled.div`
 `;
 
 const All = styled.a`
+  display: flex;
+  margin-bottom: 1rem;
   padding: 0.2rem 0;
   font-size: 0.875rem;
   font-weight: bold;
@@ -118,9 +119,12 @@ const ChildCategoryWrap = styled.ul`
 const ChildCategory = styled.li`
   padding: 0.2rem 0 0.2rem 1rem;
   font-size: 0.875rem;
-  cursor: pointer;
 
   :hover {
     text-decoration: underline;
   }
+`;
+
+const Link = styled.a`
+  display: flex;
 `;
