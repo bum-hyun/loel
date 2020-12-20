@@ -5,11 +5,44 @@ import SectionTitle from "../src/components/SectionTitle";
 import { Card } from "../src/styles";
 import service from "../utils/service";
 
+interface ICategory {
+  id?: number;
+  category: string;
+  isUse: boolean;
+  order: number;
+  parent?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
+}
+
+interface ICategoryWithChildren extends ICategory {
+  children?: ICategory[];
+}
+
 function Home() {
+  const [categories, setCategories] = useState<ICategory[] | null>(null);
+
   useEffect(() => {
     service.post("http://localhost:8002/v1/token", { email: "ru_bryunak@naver.com" }).then((r) => {
-      console.log(r.data);
       service.get("http://localhost:8002/v1/test", { headers: { authorization: r.data.token } }).then((r) => console.log(r));
+      service.get("http://localhost:8002/category").then((r) => {
+        const dummy = r.data.data.reduce((acc: any, cur: any) => {
+          if (!cur.parent) {
+            acc.push(cur);
+            return acc;
+          } else {
+            acc.filter((item: any) => {
+              if (item.category === cur.parent) {
+                item.children = [];
+                item.children.push(cur);
+              }
+            });
+            return acc;
+          }
+        }, []);
+        setCategories(dummy);
+      });
     });
   }, []);
 
@@ -66,13 +99,23 @@ function Home() {
         <Border>
           <All>전체글 보기</All>
           <ParentCategoryWrap>
-            <ParentCategory>생활</ParentCategory>
-            <ParentCategory>코딩</ParentCategory>
-            <ChildCategoryWrap>
-              <ChildCategory>javascript</ChildCategory>
-              <ChildCategory>javascript</ChildCategory>
-              <ChildCategory>javascript</ChildCategory>
-            </ChildCategoryWrap>
+            {categories &&
+              categories.map((item: ICategoryWithChildren) => {
+                if (!item.children) {
+                  return <ParentCategory>{item.category}</ParentCategory>;
+                } else {
+                  return (
+                    <>
+                      <ParentCategory>{item.category}</ParentCategory>
+                      <ChildCategoryWrap>
+                        {item.children.map((item) => {
+                          return <ChildCategory>{item.category}</ChildCategory>;
+                        })}
+                      </ChildCategoryWrap>
+                    </>
+                  );
+                }
+              })}
           </ParentCategoryWrap>
         </Border>
       </RightWrap>
