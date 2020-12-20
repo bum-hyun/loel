@@ -1,5 +1,5 @@
 import React from "react";
-import { DefaultLayout } from "layouts";
+import { EmptyLayout } from "layouts";
 
 const Setting: React.FC = () => {
   return (
@@ -9,4 +9,4 @@ const Setting: React.FC = () => {
   );
 };
 
-export default DefaultLayout(Setting);
+export default EmptyLayout(Setting);

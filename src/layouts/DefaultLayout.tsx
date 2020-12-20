@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "layouts/Header";
 import styled from "styles/styled";
+import Categories from "../components/Categories";
 
 const DefaultLayout = (Component: React.FC) => () => {
   return (
@@ -9,7 +10,12 @@ const DefaultLayout = (Component: React.FC) => () => {
       <Container>
         <Background />
         <Wrap>
-          <Component />
+          <LeftWrap>
+            <Component />
+          </LeftWrap>
+          <RightWrap>
+            <Categories />
+          </RightWrap>
         </Wrap>
       </Container>
     </>
@@ -34,4 +40,21 @@ const Background = styled.div`
 const Wrap = styled.section`
   display: flex;
   padding: 1rem;
+`;
+
+const LeftWrap = styled.div`
+  flex: 1;
+  width: 100%;
+`;
+
+const RightWrap = styled.div`
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex: 0 0 300px;
+    width: 100%;
+    margin-left: 1rem;
+    padding: 0 1rem;
+  }
 `;

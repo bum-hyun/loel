@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import service from "../../utils/service";
 import Select, { ValueType, OptionTypeBase } from "react-select";
-import { DefaultLayout } from "layouts";
+import { EmptyLayout } from "layouts";
 import { Button } from "styles";
 import { Editor as EditorType, EditorProps } from "@toast-ui/react-editor";
 import { TuiEditorWithForwardedProps } from "components/TuiEditorWrapper";
@@ -100,7 +100,7 @@ const WysiwygEditor: React.FC = () => {
   );
 };
 
-export default DefaultLayout(WysiwygEditor);
+export default EmptyLayout(WysiwygEditor);
 
 const Wrap = styled.div`
   width: 100%;
