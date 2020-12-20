@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import service from "../../utils/service";
 import Select, { ValueType, OptionTypeBase } from "react-select";
 import { EmptyLayout } from "layouts";
@@ -40,14 +40,14 @@ const WysiwygEditor: React.FC = () => {
   const [data, setData] = useState<IArticleData>({ email: "ru_bryunak@naver.com" });
   const editorRef = React.useRef<EditorType>();
 
-  const handleChange = React.useCallback(() => {
+  const handleChange = () => {
     if (!editorRef.current) {
       return;
     }
 
     const instance = editorRef.current.getInstance();
     setData({ ...data, html: instance.getHtml(), markdown: instance.getMarkdown() });
-  }, [editorRef]);
+  };
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {
     if (newValue) {
@@ -71,6 +71,10 @@ const WysiwygEditor: React.FC = () => {
     console.log(blob);
     console.log(callback);
   };
+  
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   const content = ["```typescript", "console.log('here')", "```"].join("\n");
 

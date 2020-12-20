@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styled from "styles/styled";
 import service from "../../utils/service";
@@ -50,20 +51,20 @@ const Categories: React.FC = () => {
             if (!item.children) {
               return (
                 <ParentCategory key={item.category}>
-                  <a href={`/${item.link}`}>{item.category}</a>
+                  <Link href={`/${item.link}`}>{item.category}</Link>
                 </ParentCategory>
               );
             } else {
               return (
                 <div key={item.category}>
                   <ParentCategory key={item.category}>
-                    <a href={`/${item.link}`}>{item.category}</a>
+                    <Link href={`/${item.link}`}>{item.category}</Link>
                   </ParentCategory>
                   <ChildCategoryWrap>
                     {item.children.map((item2) => {
                       return (
                         <ChildCategory key={item2.category}>
-                          <a href={`/${item.link}/${item2.link}`}>{item2.category}</a>
+                          <Link href={`/${item2.link}`}>{item2.category}</Link>
                         </ChildCategory>
                       );
                     })}

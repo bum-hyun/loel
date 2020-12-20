@@ -1,13 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import styled from "styles/styled";
+import { useRouter } from "next/router";
 
 interface ISectionTitle {
-  children: React.ReactChildren | string;
+  title: string;
 }
 
-const SectionTitle: React.FC<ISectionTitle> = ({ children }) => {
-  return <Title href={"#"}>{children}</Title>;
+const SectionTitle: React.FC<ISectionTitle> = ({ title }) => {
+  const router = useRouter();
+  const { category } = router.query;
+
+  return <Title href={`/${category}`}>{title}</Title>;
 };
 
 export default SectionTitle;
