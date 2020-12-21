@@ -29,7 +29,8 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
 ));
 
 const WysiwygEditor: React.FC = () => {
-  const [data, setData] = useState<IPost>({ email: "ru_bryunak@naver.com" });
+  const [post, setPost] = useState<IPost>({ email: "ru_bryunak@naver.com" });
+  const [image, setImage] = useState<string[]>([]);
   const editorRef = React.useRef<EditorType>();
 
   const handleChange = () => {
@@ -38,42 +39,47 @@ const WysiwygEditor: React.FC = () => {
     }
 
     const instance = editorRef.current.getInstance();
-    setData({ ...data, html: instance.getHtml(), markdown: instance.getMarkdown() });
+    setPost({ ...post, html: instance.getHtml(), markdown: instance.getMarkdown() });
   };
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {
     if (newValue) {
-      setData({ ...data, category: newValue.value });
+      setPost({ ...post, category: newValue.value });
     } else {
-      setData({ ...data, category: null });
+      setPost({ ...post, category: null });
     }
   };
 
   const handleTitle = (event: React.ChangeEvent<{ value: string }>) => {
     const { value } = event.target;
-    setData({ ...data, title: value });
+    setPost({ ...post, title: value });
   };
 
   const Submit = async () => {
-    const result = await service.post("http://localhost:8002/post/create", data);
-    console.log(result);
+    const result = await service.post("http://localhost:8002/post/create", post);
   };
 
-  const addImageBlobHook = (blob: any, callback: any) => {
-    console.log(blob);
-    console.log(callback);
+  const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
+    const formData = new FormData();
+    formData.append("img", blob);
+    const { data } = await service.post("http://localhost:8002/post/image", formData);
+    callback(data.url, "image");
+    const elements = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
+    const images: string[] = [];
+    elements.forEach((image) => images.push(image.src));
+    setImage(images);
   };
-  
+
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    setPost({ ...post, image });
+  }, [image]);
 
   const content = ["```typescript", "console.log('here')", "```"].join("\n");
 
   return (
     <Wrap>
       <RowWrap>
-        <SelectWrap instanceId={"select"} defaultValue={data.category} onChange={handleSelect} options={options} isClearable={true} />
+        <SelectWrap instanceId={"select"} defaultValue={post.category} onChange={handleSelect} options={options} isClearable={true} />
         <Button variant={"success"} height={38} onClick={Submit}>
           등록
         </Button>

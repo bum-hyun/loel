@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Collapse, Panel } from "styles";
 import styled from "styles/styled";
-import DefaultLayout from "layouts";
+import { DefaultLayout } from "layouts";
 
 const Guide: React.FC = () => {
   return (

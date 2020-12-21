@@ -12,6 +12,11 @@ const menus: { label: string; link: string }[] = [
 
 const Header: React.FC<ILayoutType> = () => {
   const [isTop, setIsTop] = useState<boolean>(true);
+  const [modal, setOpen] = useState<boolean>(false);
+
+  const open = () => {
+    setOpen(true);
+  };
 
   useEffect(() => {
     function isTopZero() {
@@ -43,6 +48,8 @@ const Header: React.FC<ILayoutType> = () => {
           ))}
         </Menus>
       </HeaderContentsWrap>
+      <ModalButton onClick={open}>버튼</ModalButton>
+      {modal && <LoginModal>로그인 모다아아아아아아ㅏ아아ㅏㅇ아알</LoginModal>}
     </HeaderContainer>
   );
 };
@@ -135,4 +142,28 @@ const Menu = styled.a<IHeader>`
 
 const MenuName = styled.div`
   position: relative;
+`;
+
+const ModalButton = styled.button`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  cursor: none;
+`;
+
+const LoginModal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 20px;
+  width: 400px;
+  height: 500px;
+  color: #000;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
 `;

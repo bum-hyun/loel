@@ -4,6 +4,7 @@ interface IPost {
   html?: string;
   markdown?: string;
   title?: string;
+  image?: string[]
 }
 
 interface IReadPost extends IPost {
