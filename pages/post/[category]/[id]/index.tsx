@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GetStaticPropsContext, GetServerSidePropsContext } from "next";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import service from "@utils/service";
 
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Button } from "styles";
-import { useQuery } from "@apollo/react-hooks";
-import { GET_POST } from "@api/Post";
-
-interface IParams {
-  category: string;
-  id: string;
-}
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { GET_POST, REMOVE_POST } from "@api/Post";
 
 const Post = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
@@ -32,13 +26,21 @@ const Post = ({ params }: GetServerSidePropsContext) => {
     },
   });
 
+  const [RemovePostMutation] = useMutation(REMOVE_POST, {
+    onCompleted: () => {
+      router.push(`/post/${category}`);
+    },
+  });
+
   const pushEditPage = () => {
     router.push(`/edit?id=${id}`);
   };
 
   const remove = async () => {
-    await service.delete(`http://localhost:8002/post/${id}`);
-    await router.push(`/post/${category}?page=1&per=20`);
+    await RemovePostMutation({
+      variables: { id },
+    });
+    // const result = await service.delete(`http://localhost:8002/post/${id}`);
   };
 
   return (

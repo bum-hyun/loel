@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card } from "styles";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import { useRouter } from "next/router";
-import service from "@utils/service";
 import EmptyBox from "styles/Icon/EmptyBox";
+import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_CATEGORY_POSTS } from "@api/Post";
 
-const Posts: React.FC = () => {
+const Posts = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
-  const { category, page, per } = router.query;
+
+  const { category } = (params as unknown) as IParams;
 
   const [posts, setPosts] = useState<IReadPost[] | null>([]);
+
+  useQuery(GET_CATEGORY_POSTS, {
+    fetchPolicy: "cache-first",
+    variables: { category },
+    onCompleted: (data) => {
+      setPosts(data.getCategoryPosts.length > 0 ? data.getCategoryPosts : null);
+    },
+  });
 
   const decodeHTML = (html: string) => {
     const content = html.replace(/(<([^>]+)>)/gi, "");
@@ -20,17 +31,6 @@ const Posts: React.FC = () => {
   const readPost = (link: string) => {
     router.push(link);
   };
-
-  useEffect(() => {
-    async function getData() {
-      const { data } = await service.get(`http://localhost:8002/post/${category}?page=${page}&per=${per}`);
-      const { totalCount, items } = data.data as IResponsePosts;
-      setPosts(totalCount ? items : null);
-    }
-    if (category) {
-      getData();
-    }
-  }, [category, page, per]);
 
   return (
     <>
@@ -56,6 +56,12 @@ const Posts: React.FC = () => {
     </>
   );
 };
+
+export async function getServerSideProps({ params }: GetStaticPropsContext) {
+  return {
+    props: { params },
+  };
+}
 
 export default DefaultLayout(Posts);
 

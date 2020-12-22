@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styles/styled";
 import { css } from "@emotion/core";
+import { Close } from "styles/Icon";
+import { Button } from "styles";
 
 const menus: { label: string; link: string }[] = [
   { label: "Home", link: "/" },
@@ -12,10 +14,20 @@ const menus: { label: string; link: string }[] = [
 
 const Header: React.FC<ILayoutType> = () => {
   const [isTop, setIsTop] = useState<boolean>(true);
-  const [modal, setOpen] = useState<boolean>(false);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
+  const [registerModal, setRegisterModal] = useState<boolean>(false);
 
-  const open = () => {
-    setOpen(true);
+  const handleLoginModal = () => {
+    setLoginModal(false);
+  };
+
+  const handleRegisterModal = () => {
+    if (loginModal && !registerModal) {
+      setLoginModal(false);
+      setRegisterModal(true);
+    } else {
+      setRegisterModal(false);
+    }
   };
 
   useEffect(() => {
@@ -48,8 +60,65 @@ const Header: React.FC<ILayoutType> = () => {
           ))}
         </Menus>
       </HeaderContentsWrap>
-      <ModalButton onClick={open}>버튼</ModalButton>
-      {modal && <LoginModal>로그인 모다아아아아아아ㅏ아아ㅏㅇ아알</LoginModal>}
+      <ModalButton onClick={() => setLoginModal(true)}>버튼</ModalButton>
+      {loginModal && (
+        <LoginModalContainer>
+          <DarkLayer onClick={handleLoginModal} />
+          <LoginModal>
+            <LoginModalHeader>
+              로그인
+              <CloseButton onClick={handleLoginModal}>
+                <Close width={20} height={20} color={"#313131"} />
+              </CloseButton>
+            </LoginModalHeader>
+            <LoginModalBody>
+              <LoginInputWrap>
+                <LoginInput placeholder={"이메일"} />
+              </LoginInputWrap>
+              <LoginInputWrap>
+                <LoginInput placeholder={"비밀번호"} />
+              </LoginInputWrap>
+              <LoginButtonWrap>
+                <Button width={"100%"} height={48} variant={"danger"}>
+                  로그인
+                </Button>
+              </LoginButtonWrap>
+            </LoginModalBody>
+            <LoginModalFooter>
+              계정이 없다면? <Register onClick={handleRegisterModal}>회원등록</Register>
+            </LoginModalFooter>
+          </LoginModal>
+        </LoginModalContainer>
+      )}
+      {registerModal && (
+        <LoginModalContainer>
+          <DarkLayer onClick={handleRegisterModal} />
+          <LoginModal>
+            <LoginModalHeader>
+              회원등록
+              <CloseButton onClick={handleRegisterModal}>
+                <Close width={20} height={20} color={"#313131"} />
+              </CloseButton>
+            </LoginModalHeader>
+            <LoginModalBody>
+              <LoginInputWrap>
+                <LoginInput placeholder={"이메일"} />
+              </LoginInputWrap>
+              <LoginInputWrap>
+                <LoginInput placeholder={"비밀번호"} />
+              </LoginInputWrap>
+              <LoginButtonWrap>
+                <Button width={"100%"} height={48} variant={"danger"}>
+                  로그인
+                </Button>
+              </LoginButtonWrap>
+            </LoginModalBody>
+            <LoginModalFooter>
+              계정이 없다면? <Register onClick={handleRegisterModal}>회원등록</Register>
+            </LoginModalFooter>
+          </LoginModal>
+        </LoginModalContainer>
+      )}
     </HeaderContainer>
   );
 };
@@ -68,6 +137,8 @@ const HeaderContainer = styled.header<IHeader>`
   height: 80px;
   ${(p) => !p.isTop && WhiteBackground}
   color: ${(p) => (p.isTop ? "#fff" : "#000")};
+  border-bottom: ${(p) => !p.isTop && "1px solid #eee"};
+  box-shadow: ${(p) => !p.isTop && "rgba(0, 0, 0, 0.08) 0px 1px 12px"};
   z-index: 100;
 
   ::before {
@@ -154,16 +225,89 @@ const ModalButton = styled.button`
   cursor: none;
 `;
 
+const LoginModalContainer = styled.div``;
+
+const DarkLayer = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+`;
+
 const LoginModal = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
-  padding: 20px;
-  width: 400px;
-  height: 500px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 568px;
+  max-height: 100%;
   color: #000;
   background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.28) 0 8px 28px;
   transform: translate(-50%, -50%);
+  z-index: 15;
+`;
+
+const LoginModalHeader = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #313131;
+  border-bottom: 1px solid #e7e7e7;
+`;
+
+const CloseButton = styled.div`
+  position: absolute;
+  right: 1rem;
+  display: inline-flex;
+  cursor: pointer;
+`;
+
+const LoginModalBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e7e7e7;
+`;
+
+const LoginInputWrap = styled.div`
+  padding: 0.5rem 0;
+`;
+
+const LoginInput = styled.input`
+  margin: 0;
+  padding: 1rem 1rem;
+  width: 100%;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+`;
+
+const LoginButtonWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const LoginModalFooter = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+`;
+
+const Register = styled.span`
+  margin-left: 0.5rem;
+  font-weight: 500;
+  color: #3469d3;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;

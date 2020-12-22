@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import { Card } from "../src/styles";
-import service from "../utils/service";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
-import { GET_ALL_POSTS } from "../api/Post";
+import { GET_ALL_POSTS } from "@api/Post";
 
-const Home: React.FC = () => {
+interface IPosts {
+  label: string;
+  items: IReadPost[];
+}
+
+const Home = () => {
   const router = useRouter();
 
-  const [posts, setPosts] = useState<any[] | null>([]);
+  const [posts, setPosts] = useState<IPosts[] | null>([]);
 
   const decodeHTML = (html: string) => {
     const content = html.replace(/(<([^>]+)>)/gi, "");
@@ -21,29 +25,24 @@ const Home: React.FC = () => {
     router.push(link);
   };
 
-  const data = useQuery(GET_ALL_POSTS, {
+  useQuery(GET_ALL_POSTS, {
     fetchPolicy: "cache-first",
+    onCompleted: (data) => {
+      setPosts(data.getAllPosts);
+    },
   });
-
-  useEffect(() => {
-    async function getData() {
-      const { data } = await service.get(`http://localhost:8002/post/all`);
-      setPosts(data.data);
-    }
-    getData();
-  }, []);
 
   return (
     <>
       {posts &&
-        Object.entries(posts!).map((item, index) => {
+        posts.map((item) => {
           return (
-            <SectionWrap key={index}>
-              {item[1].length > 0 && (
+            <SectionWrap key={item.label}>
+              {item.items.length > 0 && (
                 <>
-                  <Title>{item[0]}</Title>
+                  <Title>{item.label}</Title>
                   <CardWrapper>
-                    {item[1].map((item2: any) => {
+                    {item.items.map((item2) => {
                       return (
                         <Card
                           key={item2.id}
@@ -51,7 +50,7 @@ const Home: React.FC = () => {
                           onClick={() => readPost(`/post/${item2.category}/${item2.id}`)}
                           thumbnail={<img src={"/background.jpg"} alt={"image"} />}
                         >
-                          {decodeHTML(item2.html)}
+                          {decodeHTML(item2.html!)}
                         </Card>
                       );
                     })}

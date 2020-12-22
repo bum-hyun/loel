@@ -3,8 +3,25 @@ import { gql } from "apollo-boost";
 export const GET_ALL_POSTS = gql`
   query getAllPosts {
     getAllPosts {
+      label
+      items {
+        id
+        category
+        title
+        html
+        markdown
+        image
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const GET_CATEGORY_POSTS = gql`
+  query getCategoryPosts($category: String!) {
+    getCategoryPosts(category: $category) {
       id
-      email
       category
       title
       html
@@ -20,7 +37,6 @@ export const GET_POST = gql`
   query getPosts($id: String!) {
     getPost(id: $id) {
       id
-      email
       category
       title
       html
@@ -33,5 +49,11 @@ export const GET_POST = gql`
         name
       }
     }
+  }
+`;
+
+export const REMOVE_POST = gql`
+  mutation removePost($id: String!) {
+    removePost(id: $id)
   }
 `;

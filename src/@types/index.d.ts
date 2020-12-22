@@ -3,3 +3,14 @@
 /// <reference path="./post.d.ts" />
 
 interface ICodeSyntaxHighlight extends toastui.PluginInfo, toastui.Plugin {}
+
+interface IParams {
+  category?: string;
+  id?: string;
+}
+
+interface IIcon {
+  width?: number;
+  height?: number;
+  color?: string;
+}

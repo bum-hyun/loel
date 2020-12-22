@@ -3,8 +3,8 @@ import styled from "styles/styled";
 import { css } from "@emotion/core";
 
 interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   variant?: string;
   shape?: string;
   disabled?: boolean;
@@ -53,45 +53,38 @@ interface IShape {
 
 const variant = {
   primary: css`
-    background: #404d67;
+    background: #538cff;
     color: white;
-    border: 1px solid #404d67;
   `,
 
   secondary: css`
     background: #9ea9af;
     color: #fff;
-    border: 1px solid #9ea9af;
   `,
 
   success: css`
     background: #64d849;
     color: #fff;
-    border: 1px solid #64d849;
   `,
 
   danger: css`
     background: #f86b51;
     color: #fff;
-    border: 1px solid #f86b51;
   `,
 
   warning: css`
     background: #f4c22b;
     color: #fff;
-    border: 1px solid #f4c22b;
   `,
 
   info: css`
     background: #09c3c8;
     color: #fff;
-    border: 1px solid #09c3c8;
   `,
 
   dark: css`
     background: #4a5256;
     color: #fff;
-    border: 1px solid #4a5256;
   `,
 };
 
@@ -129,8 +122,8 @@ const StyledButton = styled.button<IButton>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: ${(p) => p.width && `${p.width}px`};
-  height: ${(p) => p.height && `${p.height}px`};
+  width: ${(p) => (p.width && typeof p.width === "number" ? `${p.width}px` : `${p.width}`)} !important;
+  height: ${(p) => (p.height && typeof p.height === "number" ? `${p.height}px` : `${p.height}`)} !important;
   border: none;
   cursor: pointer;
   outline: none;
