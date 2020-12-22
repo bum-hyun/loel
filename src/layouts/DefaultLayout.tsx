@@ -2,8 +2,9 @@ import React from "react";
 import Header from "layouts/Header";
 import styled from "styles/styled";
 import Categories from "../components/Categories";
+import { GetServerSidePropsContext } from "next";
 
-const DefaultLayout = (Component: React.FC) => () => {
+const DefaultLayout = (Component: ({ params }: GetServerSidePropsContext) => JSX.Element) => (params: GetServerSidePropsContext) => {
   return (
     <>
       <Header />
@@ -11,7 +12,7 @@ const DefaultLayout = (Component: React.FC) => () => {
         <Background />
         <Wrap>
           <LeftWrap>
-            <Component />
+            <Component {...params} />
           </LeftWrap>
           <RightWrap>
             <Categories />

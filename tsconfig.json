@@ -27,7 +27,8 @@
     "paths": {
       "src/*": ["src/*"],
       "@styles/*": ["src/styles/*"],
-      "@utils/*": ["../utils/*"]
+      "@utils/*": ["../utils/*"],
+      "@api/*": ["../api/*"]
     }
   },
   "include": [

@@ -5,7 +5,7 @@ import { Card } from "../src/styles";
 import service from "../utils/service";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
-import { GET_ALL_POST } from "../api/Post";
+import { GET_ALL_POSTS } from "../api/Post";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -21,11 +21,9 @@ const Home: React.FC = () => {
     router.push(link);
   };
 
-  const data = useQuery(GET_ALL_POST, {
+  const data = useQuery(GET_ALL_POSTS, {
     fetchPolicy: "cache-first",
   });
-
-  console.log(data);
 
   useEffect(() => {
     async function getData() {

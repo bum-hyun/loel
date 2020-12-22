@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { GetStaticPropsContext, GetServerSidePropsContext } from "next";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import dayjs from "dayjs";
@@ -8,12 +9,28 @@ import service from "@utils/service";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Button } from "styles";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_POST } from "@api/Post";
 
-const Post: React.FC = () => {
+interface IParams {
+  category: string;
+  id: string;
+}
+
+const Post = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
-  const { category, id } = router.query;
+
+  const { category, id } = (params as unknown) as IParams;
 
   const [post, setPost] = useState<IReadPost | null>(null);
+
+  useQuery(GET_POST, {
+    fetchPolicy: "cache-first",
+    variables: { id },
+    onCompleted: (data) => {
+      setPost(data.getPost);
+    },
+  });
 
   const pushEditPage = () => {
     router.push(`/edit?id=${id}`);
@@ -23,16 +40,6 @@ const Post: React.FC = () => {
     await service.delete(`http://localhost:8002/post/${id}`);
     await router.push(`/post/${category}?page=1&per=20`);
   };
-
-  useEffect(() => {
-    async function getData() {
-      const { data } = await service.get(`http://localhost:8002/post/${id}`);
-      setPost(data.data);
-    }
-    if (category && id) {
-      getData();
-    }
-  }, [id, category]);
 
   return (
     <PostWrap>
@@ -59,6 +66,12 @@ const Post: React.FC = () => {
     </PostWrap>
   );
 };
+
+export async function getServerSideProps({ params }: GetStaticPropsContext) {
+  return {
+    props: { params },
+  };
+}
 
 export default DefaultLayout(Post);
 
