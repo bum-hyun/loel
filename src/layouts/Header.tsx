@@ -4,7 +4,7 @@ import { css } from "@emotion/core";
 
 const menus: { label: string; link: string }[] = [
   { label: "Home", link: "/" },
-  { label: "Write", link: "/write" },
+  { label: "Edit", link: "/edit" },
   { label: "Menu", link: "#" },
   { label: "Guide", link: "/guide" },
   { label: "Setting", link: "/setting" },

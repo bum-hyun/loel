@@ -4,12 +4,14 @@ import Head from "next/head";
 import { Global } from "@emotion/core";
 import { Reset } from "styles";
 import service from "../utils/service";
+import { ApolloProvider } from "@apollo/react-hooks";
+import client from "../apollo";
 
 function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    service.post("http://localhost:8002/v1/token", { email: "ru_bryunak@naver.com" }).then((r) => {
-      service.get("http://localhost:8002/v1/test", { headers: { authorization: r.data.token } }).then((r) => console.log(r));
-    });
+    // service.post("http://localhost:8002/v1/token", { email: "ru_bryunak@naver.com" }).then((r) => {
+    //   service.get("http://localhost:8002/v1/test", { headers: { authorization: r.data.token } }).then((r) => console.log(r));
+    // });
   }, []);
 
   return (
@@ -19,7 +21,9 @@ function App({ Component, pageProps }: AppProps) {
         <title>Hello</title>
       </Head>
       <Global styles={Reset} />
-      <Component {...pageProps} />
+      <ApolloProvider client={client as any}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   );
 }

@@ -7,6 +7,7 @@ import service from "@utils/service";
 
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import { Button } from "styles";
 
 const Post: React.FC = () => {
   const router = useRouter();
@@ -14,9 +15,18 @@ const Post: React.FC = () => {
 
   const [post, setPost] = useState<IReadPost | null>(null);
 
+  const pushEditPage = () => {
+    router.push(`/edit?id=${id}`);
+  };
+
+  const remove = async () => {
+    await service.delete(`http://localhost:8002/post/${id}`);
+    await router.push(`/post/${category}?page=1&per=20`);
+  };
+
   useEffect(() => {
     async function getData() {
-      const { data } = await service.get(`http://localhost:8002/${category}/${id}`);
+      const { data } = await service.get(`http://localhost:8002/post/${id}`);
       setPost(data.data);
     }
     if (category && id) {
@@ -33,6 +43,14 @@ const Post: React.FC = () => {
             <InfoWrap>
               <Author>{post.email}</Author>
               <Date>{dayjs(post.updatedAt).format("YYYY년 MM월 DD일 hh시 mm분 ss초")}</Date>
+              <EditWrap>
+                <Button onClick={pushEditPage} variant={"warning"}>
+                  수정
+                </Button>
+                <Button onClick={remove} variant={"danger"}>
+                  삭제
+                </Button>
+              </EditWrap>
             </InfoWrap>
           </HeadWrap>
           <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html as string }} />
@@ -85,4 +103,12 @@ const Date = styled.span``;
 
 const ContentWrap = styled.section`
   font-size: 1rem;
+`;
+
+const EditWrap = styled.div`
+  margin-left: auto;
+
+  button + button {
+    margin-left: 0.5rem;
+  }
 `;

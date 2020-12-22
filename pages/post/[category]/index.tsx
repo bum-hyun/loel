@@ -3,7 +3,7 @@ import { Card } from "styles";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import { useRouter } from "next/router";
-import service from "../../utils/service";
+import service from "@utils/service";
 import EmptyBox from "styles/Icon/EmptyBox";
 
 const Posts: React.FC = () => {
@@ -17,9 +17,13 @@ const Posts: React.FC = () => {
     return content.substring(0, 150);
   };
 
+  const readPost = (link: string) => {
+    router.push(link);
+  };
+
   useEffect(() => {
     async function getData() {
-      const { data } = await service.get(`http://localhost:8002/${category}?page=${page}&per=${per}`);
+      const { data } = await service.get(`http://localhost:8002/post/${category}?page=${page}&per=${per}`);
       const { totalCount, items } = data.data as IResponsePosts;
       setPosts(totalCount ? items : null);
     }
@@ -36,8 +40,8 @@ const Posts: React.FC = () => {
           {posts &&
             posts.map((item: IReadPost) => {
               return (
-                <Card key={item.id} title={item.title} thumbnail={<img src={"./background.jpg"} alt={"image"} />}>
-                  {decodeHTML(item.html)}
+                <Card onClick={() => readPost(`/post/${item.category}/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={"/background.jpg"} alt={"image"} />}>
+                  {decodeHTML(item.html!)}
                 </Card>
               );
             })}

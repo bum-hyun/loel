@@ -12,6 +12,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "highlight.js/styles/railscasts.css";
 import styled from "styles/styled";
+import { useRouter } from "next/router";
 
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -29,7 +30,10 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPr
 ));
 
 const WysiwygEditor: React.FC = () => {
-  const [post, setPost] = useState<IPost>({ email: "ru_bryunak@naver.com" });
+  const router = useRouter();
+  const { id } = router.query;
+
+  const [post, setPost] = useState<IPost>({ title: "", category: "", html: "", email: "ru_bryunak@naver.com", markdown: "" });
   const [image, setImage] = useState<string[]>([]);
   const editorRef = React.useRef<EditorType>();
 
@@ -56,7 +60,12 @@ const WysiwygEditor: React.FC = () => {
   };
 
   const Submit = async () => {
-    const result = await service.post("http://localhost:8002/post/create", post);
+    if (id) {
+      await service.put(`http://localhost:8002/post/${id}`, post);
+      await router.push(`/post/${post.category}`);
+    } else {
+      await service.post("http://localhost:8002/post/create", post);
+    }
   };
 
   const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
@@ -74,21 +83,29 @@ const WysiwygEditor: React.FC = () => {
     setPost({ ...post, image });
   }, [image]);
 
-  const content = ["```typescript", "console.log('here')", "```"].join("\n");
+  useEffect(() => {
+    async function getData() {
+      const { data } = await service.get(`http://localhost:8002/post/${id}`);
+      setPost(data.data);
+    }
+    if (id) {
+      getData();
+    }
+  }, [id]);
 
   return (
     <Wrap>
       <RowWrap>
-        <SelectWrap instanceId={"select"} defaultValue={post.category} onChange={handleSelect} options={options} isClearable={true} />
-        <Button variant={"success"} height={38} onClick={Submit}>
-          등록
+        <SelectWrap instanceId={"select"} value={options.filter((item) => item.value === post.category)} onChange={handleSelect} options={options} isClearable={true} />
+        <Button variant={id ? "warning" : "success"} height={38} onClick={Submit}>
+          {id ? "수정" : "등록"}
         </Button>
       </RowWrap>
       <RowWrap>
-        <TitleInput onChange={handleTitle} placeholder={"제목을 입력해주세요."} />
+        <TitleInput onChange={handleTitle} value={post.title} placeholder={"제목을 입력해주세요."} />
       </RowWrap>
       <EditorWithForwardedRef
-        initialValue={content}
+        initialValue={post.markdown}
         previewStyle={"vertical"}
         height={"600px"}
         initialEditType={"markdown"}

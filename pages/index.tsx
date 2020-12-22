@@ -4,6 +4,8 @@ import { DefaultLayout } from "layouts";
 import { Card } from "../src/styles";
 import service from "../utils/service";
 import { useRouter } from "next/router";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_ALL_POST } from "../api/Post";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -19,9 +21,15 @@ const Home: React.FC = () => {
     router.push(link);
   };
 
+  const data = useQuery(GET_ALL_POST, {
+    fetchPolicy: "cache-first",
+  });
+
+  console.log(data);
+
   useEffect(() => {
     async function getData() {
-      const { data } = await service.get(`http://localhost:8002/all`);
+      const { data } = await service.get(`http://localhost:8002/post/all`);
       setPosts(data.data);
     }
     getData();
@@ -42,8 +50,8 @@ const Home: React.FC = () => {
                         <Card
                           key={item2.id}
                           title={item2.title}
-                          onClick={() => readPost(`/${item2.category}/${item2.id}`)}
-                          thumbnail={<img src={"./background.jpg"} alt={"image"} />}
+                          onClick={() => readPost(`/post/${item2.category}/${item2.id}`)}
+                          thumbnail={<img src={"/background.jpg"} alt={"image"} />}
                         >
                           {decodeHTML(item2.html)}
                         </Card>
