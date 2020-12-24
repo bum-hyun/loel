@@ -1,6 +1,7 @@
 /// <reference path="./import-png.d.ts" />
 /// <reference path="./header.d.ts" />
 /// <reference path="./post.d.ts" />
+/// <reference path="./category.d.ts" />
 
 interface ICodeSyntaxHighlight extends toastui.PluginInfo, toastui.Plugin {}
 

@@ -1,34 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styles/styled";
-import service from "../../utils/service";
-
-interface ICategory {
-  id?: number;
-  category: string;
-  isUse: boolean;
-  order: number;
-  parent?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
-  deletedAt?: string;
-  link: string;
-}
-
-interface ICategoryWithChildren extends ICategory {
-  children?: ICategory[];
-}
+import { useQuery } from "@apollo/react-hooks";
+import { GET_CATEGORIES } from "@api/Category";
 
 const Categories: React.FC = () => {
   const [categories, setCategories] = useState<ICategory[] | null>(null);
 
-  useEffect(() => {
-    service.get("http://localhost:8002/category").then((r: any) => {
-      const dummy = r.data.data.reduce((acc: any, cur: any) => {
+  useQuery(GET_CATEGORIES, {
+    fetchPolicy: "cache-first",
+    onCompleted: (data) => {
+      const dummy = data.getCategories.reduce((acc: ICategory[], cur: ICategory) => {
         if (!cur.parent) {
           acc.push(cur);
           return acc;
         } else {
-          acc.filter((item: any) => {
+          acc.filter((item: ICategoryWithChildren) => {
             if (item.category === cur.parent) {
               item.children = [];
               item.children.push(cur);
@@ -38,8 +24,8 @@ const Categories: React.FC = () => {
         }
       }, []);
       setCategories(dummy);
-    });
-  }, []);
+    },
+  });
 
   return (
     <Border>
