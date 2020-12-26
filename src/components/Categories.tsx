@@ -9,15 +9,15 @@ const Categories: React.FC = () => {
   useQuery(GET_CATEGORIES, {
     fetchPolicy: "cache-first",
     onCompleted: (data) => {
-      const dummy = data.getCategories.reduce((acc: ICategory[], cur: ICategory) => {
+      const dummy = data.getCategories.reduce((acc: ICategory[], cur: ICategoryWithChildren) => {
+        cur = { ...cur, children: [] };
         if (!cur.parent) {
           acc.push(cur);
           return acc;
         } else {
-          acc.filter((item: ICategoryWithChildren) => {
+          acc.map((item: ICategoryWithChildren) => {
             if (item.category === cur.parent) {
-              item.children = [];
-              item.children.push(cur);
+              item.children = item.children?.concat(cur);
             }
           });
           return acc;

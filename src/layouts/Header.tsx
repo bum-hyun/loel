@@ -3,6 +3,9 @@ import styled from "styles/styled";
 import { css } from "@emotion/core";
 import { Close } from "styles/Icon";
 import { Button } from "styles";
+import { useMutation } from "@apollo/react-hooks";
+import { LOGIN, REGISTER } from "@api/User";
+import cookie from "js-cookie";
 
 const menus: { label: string; link: string }[] = [
   { label: "Home", link: "/" },
@@ -16,6 +19,26 @@ const Header: React.FC<ILayoutType> = () => {
   const [isTop, setIsTop] = useState<boolean>(true);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [registerModal, setRegisterModal] = useState<boolean>(false);
+  const [loginInput, setLoginInput] = useState({ email: "", password: "" });
+  const [registerInput, setRegisterInput] = useState({ email: "", name: "", password: "" });
+
+  const [LoginMutation] = useMutation(LOGIN, {
+    onCompleted: (data) => {
+      cookie.set("accessToken", data.login.token);
+    },
+  });
+
+  const [RegisterMutation] = useMutation(REGISTER, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+  });
+
+  useEffect(() => {
+    // LoginMutation({
+    //   variables: { input: { email: "ru_bryunak@naver.com", password: "here" } },
+    // });
+  }, []);
 
   const handleLoginModal = () => {
     setLoginModal(false);
@@ -28,6 +51,36 @@ const Header: React.FC<ILayoutType> = () => {
     } else {
       setRegisterModal(false);
     }
+  };
+
+  const changeToRegisterModal = () => {
+    setLoginModal(false);
+    setRegisterModal(true);
+  };
+
+  const changeToLoginModal = () => {
+    setRegisterModal(false);
+    setLoginModal(true);
+  };
+
+  const handleLoginInput = (event: React.ChangeEvent<{ name: string; value: string }>) => {
+    setLoginInput({ ...loginInput, [event.target.name]: event.target.value });
+  };
+
+  const handleRegisterInput = (event: React.ChangeEvent<{ name: string; value: string }>) => {
+    setRegisterInput({ ...registerInput, [event.target.name]: event.target.value });
+  };
+
+  const login = () => {
+    LoginMutation({
+      variables: { loginInput },
+    });
+  };
+
+  const register = () => {
+    RegisterMutation({
+      variables: { registerInput },
+    });
   };
 
   useEffect(() => {
@@ -73,19 +126,19 @@ const Header: React.FC<ILayoutType> = () => {
             </LoginModalHeader>
             <LoginModalBody>
               <LoginInputWrap>
-                <LoginInput placeholder={"이메일"} />
+                <LoginInput name={"email"} placeholder={"이메일"} onChange={handleLoginInput} />
               </LoginInputWrap>
               <LoginInputWrap>
-                <LoginInput placeholder={"비밀번호"} />
+                <LoginInput name={"password"} type={"password"} placeholder={"비밀번호"} onChange={handleLoginInput} />
               </LoginInputWrap>
               <LoginButtonWrap>
-                <Button width={"100%"} height={48} variant={"danger"}>
+                <Button width={"100%"} height={48} variant={"danger"} onClick={login}>
                   로그인
                 </Button>
               </LoginButtonWrap>
             </LoginModalBody>
             <LoginModalFooter>
-              계정이 없다면? <Register onClick={handleRegisterModal}>회원등록</Register>
+              계정이 없다면? <Register onClick={changeToRegisterModal}>회원등록</Register>
             </LoginModalFooter>
           </LoginModal>
         </LoginModalContainer>
@@ -102,19 +155,22 @@ const Header: React.FC<ILayoutType> = () => {
             </LoginModalHeader>
             <LoginModalBody>
               <LoginInputWrap>
-                <LoginInput placeholder={"이메일"} />
+                <LoginInput name={"email"} placeholder={"이메일"} onChange={handleRegisterInput} />
               </LoginInputWrap>
               <LoginInputWrap>
-                <LoginInput placeholder={"비밀번호"} />
+                <LoginInput name={"name"} placeholder={"이름"} onChange={handleRegisterInput} />
+              </LoginInputWrap>
+              <LoginInputWrap>
+                <LoginInput name={"password"} type={"password"} placeholder={"비밀번호"} onChange={handleRegisterInput} />
               </LoginInputWrap>
               <LoginButtonWrap>
-                <Button width={"100%"} height={48} variant={"danger"}>
-                  로그인
+                <Button width={"100%"} height={48} variant={"danger"} onClick={register}>
+                  회원등록
                 </Button>
               </LoginButtonWrap>
             </LoginModalBody>
             <LoginModalFooter>
-              계정이 없다면? <Register onClick={handleRegisterModal}>회원등록</Register>
+              <Register onClick={changeToLoginModal}>로그인</Register>
             </LoginModalFooter>
           </LoginModal>
         </LoginModalContainer>

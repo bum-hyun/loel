@@ -1,17 +1,23 @@
-import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { createHttpLink } from "apollo-link-http";
-import fetch from "isomorphic-unfetch";
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import cookie from "js-cookie";
+import { setContext } from "@apollo/client/link/context";
 
-const GRAPHQL_URL = "http://localhost:3301/api";
+const httpLink = createHttpLink({
+  uri: "http://localhost:3301/api",
+});
 
-const link = createHttpLink({
-  fetch,
-  uri: GRAPHQL_URL,
+const authLink = setContext((_, { headers }) => {
+  const token = cookie.get("accessToken");
+  return {
+    headers: {
+      ...headers,
+      authorization: token,
+    },
+  };
 });
 
 const client = new ApolloClient({
-  link: link,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
