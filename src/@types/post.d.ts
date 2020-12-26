@@ -1,4 +1,5 @@
 interface IPost {
+  id?: string;
   email?: string;
   category?: string | null;
   html?: string;

@@ -52,6 +52,36 @@ export const GET_POST = gql`
   }
 `;
 
+export const CREATE_POST = gql`
+  mutation createPost($input: EditPostInput!) {
+    createPost(input: $input) {
+      id
+      category
+      title
+      html
+      markdown
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const MODIFY_POST = gql`
+  mutation modifyPost($id: String!, $input: EditPostInput!) {
+    modifyPost(id: $id, input: $input) {
+      id
+      category
+      title
+      html
+      markdown
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const REMOVE_POST = gql`
   mutation removePost($id: String!) {
     removePost(id: $id)

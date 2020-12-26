@@ -13,6 +13,8 @@ import "tui-color-picker/dist/tui-color-picker.css";
 import "highlight.js/styles/railscasts.css";
 import styled from "styles/styled";
 import { useRouter } from "next/router";
+import { useMutation } from "@apollo/react-hooks";
+import { CREATE_POST, MODIFY_POST } from "@api/Post";
 
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -59,13 +61,17 @@ const WysiwygEditor: React.FC = () => {
     setPost({ ...post, title: value });
   };
 
+  const [EditPostMutation] = useMutation(id ? MODIFY_POST : CREATE_POST, {
+    onCompleted: () => {
+      router.push(`/post/${post.category}`);
+    },
+  });
+
   const Submit = async () => {
-    if (id) {
-      await service.put(`http://localhost:8002/post/${id}`, post);
-      await router.push(`/post/${post.category}`);
-    } else {
-      await service.post("http://localhost:8002/post/create", post);
-    }
+    const input = id ? { ...post, id } : post;
+    await EditPostMutation({
+      variables: { input },
+    });
   };
 
   const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
