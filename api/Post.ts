@@ -53,7 +53,7 @@ export const GET_POST = gql`
 `;
 
 export const CREATE_POST = gql`
-  mutation createPost($input: EditPostInput!) {
+  mutation createPost($input: CreatePostInput!) {
     createPost(input: $input) {
       id
       category
@@ -68,17 +68,8 @@ export const CREATE_POST = gql`
 `;
 
 export const MODIFY_POST = gql`
-  mutation modifyPost($id: String!, $input: EditPostInput!) {
-    modifyPost(id: $id, input: $input) {
-      id
-      category
-      title
-      html
-      markdown
-      image
-      createdAt
-      updatedAt
-    }
+  mutation modifyPost($id: String!, $input: ModifyPostInput!) {
+    modifyPost(id: $id, input: $input)
   }
 `;
 

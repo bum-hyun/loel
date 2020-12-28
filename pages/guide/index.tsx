@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Collapse, Panel } from "styles";
 import styled from "styles/styled";
-import { DefaultLayout } from "layouts";
+import { EmptyLayout } from "layouts";
 
 const Guide: React.FC = () => {
   return (
@@ -42,7 +42,7 @@ const Guide: React.FC = () => {
   );
 };
 
-export default DefaultLayout(Guide);
+export default EmptyLayout(Guide);
 
 const Container = styled.div`
   padding: 1rem 1rem 5rem;

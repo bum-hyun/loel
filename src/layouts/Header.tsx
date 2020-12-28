@@ -7,12 +7,12 @@ import { useMutation } from "@apollo/react-hooks";
 import { LOGIN, REGISTER } from "@api/User";
 import cookie from "js-cookie";
 
-const menus: { label: string; link: string }[] = [
+const menus: { label: string; link: string; authority?: boolean }[] = [
   { label: "Home", link: "/" },
-  { label: "Edit", link: "/edit" },
+  { label: "Edit", link: "/edit", authority: true },
   { label: "Menu", link: "#" },
   { label: "Guide", link: "/guide" },
-  { label: "Setting", link: "/setting" },
+  { label: "Setting", link: "/setting", authority: true },
 ];
 
 const Header: React.FC<ILayoutType> = () => {
@@ -21,24 +21,29 @@ const Header: React.FC<ILayoutType> = () => {
   const [registerModal, setRegisterModal] = useState<boolean>(false);
   const [loginInput, setLoginInput] = useState({ email: "", password: "" });
   const [registerInput, setRegisterInput] = useState({ email: "", name: "", password: "" });
+  const [authority, setAuthority] = useState<boolean>(false);
 
   const [LoginMutation] = useMutation(LOGIN, {
     onCompleted: (data) => {
       cookie.set("accessToken", data.login.token);
+      setAuthority(true);
+      setLoginModal(false);
     },
   });
 
   const [RegisterMutation] = useMutation(REGISTER, {
     onCompleted: (data) => {
-      console.log(data);
+      setLoginModal(true);
+      setRegisterModal(false);
     },
   });
 
   useEffect(() => {
-    // LoginMutation({
-    //   variables: { input: { email: "ru_bryunak@naver.com", password: "here" } },
-    // });
-  }, []);
+    const token = cookie.get("accessToken");
+    if (token) {
+      setAuthority(true);
+    }
+  }, [authority]);
 
   const handleLoginModal = () => {
     setLoginModal(false);
@@ -106,11 +111,22 @@ const Header: React.FC<ILayoutType> = () => {
         <Logo />
         <Center />
         <Menus>
-          {menus.map((item, index) => (
-            <Menu key={index} isTop={isTop} href={item.link}>
-              <MenuName>{item.label}</MenuName>
-            </Menu>
-          ))}
+          {!authority &&
+            menus.map((item, index) => {
+              if (!item.authority) {
+                return (
+                  <Menu key={index} isTop={isTop} href={item.link}>
+                    <MenuName>{item.label}</MenuName>
+                  </Menu>
+                );
+              }
+            })}
+          {authority &&
+            menus.map((item, index) => (
+              <Menu key={index} isTop={isTop} href={item.link}>
+                <MenuName>{item.label}</MenuName>
+              </Menu>
+            ))}
         </Menus>
       </HeaderContentsWrap>
       <ModalButton onClick={() => setLoginModal(true)}>버튼</ModalButton>

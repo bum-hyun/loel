@@ -13,8 +13,8 @@ import "tui-color-picker/dist/tui-color-picker.css";
 import "highlight.js/styles/railscasts.css";
 import styled from "styles/styled";
 import { useRouter } from "next/router";
-import { useMutation } from "@apollo/react-hooks";
-import { CREATE_POST, MODIFY_POST } from "@api/Post";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { CREATE_POST, MODIFY_POST, GET_POST } from "@api/Post";
 
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -38,6 +38,16 @@ const WysiwygEditor: React.FC = () => {
   const [post, setPost] = useState<IPost>({ title: "", category: "", html: "", email: "ru_bryunak@naver.com", markdown: "" });
   const [image, setImage] = useState<string[]>([]);
   const editorRef = React.useRef<EditorType>();
+
+  useQuery(GET_POST, {
+    fetchPolicy: "cache-first",
+    variables: { id },
+    skip: !id,
+    onCompleted: (data) => {
+      const post = data.getPost;
+      setPost({ email: post.user.email, category: post.category, title: post.title, html: post.html, markdown: post.markdown, image: post.image });
+    },
+  });
 
   const handleChange = () => {
     if (!editorRef.current) {
@@ -68,9 +78,8 @@ const WysiwygEditor: React.FC = () => {
   });
 
   const Submit = async () => {
-    const input = id ? { ...post, id } : post;
     await EditPostMutation({
-      variables: { input },
+      variables: id ? { id, input: post } : { input: post },
     });
   };
 
@@ -88,16 +97,6 @@ const WysiwygEditor: React.FC = () => {
   useEffect(() => {
     setPost({ ...post, image });
   }, [image]);
-
-  useEffect(() => {
-    async function getData() {
-      const { data } = await service.get(`http://localhost:8002/post/${id}`);
-      setPost(data.data);
-    }
-    if (id) {
-      getData();
-    }
-  }, [id]);
 
   return (
     <Wrap>

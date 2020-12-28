@@ -15,6 +15,11 @@ interface IReadPost extends IPost {
   deletedAt?: string;
 }
 
+interface IPosts {
+  label: string;
+  items: IReadPost[];
+}
+
 interface IResponsePosts {
   items: IReadPost[];
   totalCount: number;

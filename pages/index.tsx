@@ -6,11 +6,6 @@ import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "@api/Post";
 
-interface IPosts {
-  label: string;
-  items: IReadPost[];
-}
-
 const Home = () => {
   const router = useRouter();
 

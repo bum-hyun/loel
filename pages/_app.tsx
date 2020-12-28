@@ -3,11 +3,10 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { Global } from "@emotion/core";
 import { Reset } from "styles";
-import { ApolloProvider, useQuery } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/react-hooks";
 import client from "../apollo";
 
 const App = ({ Component, pageProps }: AppProps) => {
-  
   return (
     <>
       <Head>
