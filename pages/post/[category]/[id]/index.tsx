@@ -4,6 +4,7 @@ import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -43,29 +44,40 @@ const Post = ({ params }: GetServerSidePropsContext) => {
     // const result = await service.delete(`http://localhost:8002/post/${id}`);
   };
 
+  const decodeHTML = (html?: string) => {
+    const content = html!.replace(/(<([^>]+)>)/gi, "");
+    return content.substring(0, 150);
+  };
+
   return (
-    <PostWrap>
-      {post && (
-        <>
-          <HeadWrap>
-            <Title>{post.title}</Title>
-            <InfoWrap>
-              <Author>{post.email}</Author>
-              <Date>{dayjs(post.updatedAt).format("YYYY년 MM월 DD일 hh시 mm분 ss초")}</Date>
-              <EditWrap>
-                <Button onClick={pushEditPage} variant={"warning"}>
-                  수정
-                </Button>
-                <Button onClick={remove} variant={"danger"}>
-                  삭제
-                </Button>
-              </EditWrap>
-            </InfoWrap>
-          </HeadWrap>
-          <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html as string }} />
-        </>
-      )}
-    </PostWrap>
+    <>
+      <Head>
+        <link rel="canonical" href={`https://loelblog.com/${category}/${id}`} data-rh="true" />
+        <meta name="description" content={decodeHTML(post ? post.html : "로엘의 블로그입니다!")} />
+      </Head>
+      <PostWrap>
+        {post && (
+          <>
+            <HeadWrap>
+              <Title>{post.title}</Title>
+              <InfoWrap>
+                <Author>{post.email}</Author>
+                <Date>{dayjs(post.updatedAt).format("YYYY년 MM월 DD일 hh시 mm분 ss초")}</Date>
+                <EditWrap>
+                  <Button onClick={pushEditPage} variant={"warning"}>
+                    수정
+                  </Button>
+                  <Button onClick={remove} variant={"danger"}>
+                    삭제
+                  </Button>
+                </EditWrap>
+              </InfoWrap>
+            </HeadWrap>
+            <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html as string }} />
+          </>
+        )}
+      </PostWrap>
+    </>
   );
 };
 

@@ -10,8 +10,8 @@ import cookie from "js-cookie";
 const menus: { label: string; link: string; authority?: boolean }[] = [
   { label: "Home", link: "/" },
   { label: "Edit", link: "/edit", authority: true },
-  { label: "Menu", link: "#" },
-  { label: "Guide", link: "/guide" },
+  { label: "Menu", link: "#", authority: true },
+  { label: "Guide", link: "/guide", authority: true },
   { label: "Setting", link: "/setting", authority: true },
 ];
 
