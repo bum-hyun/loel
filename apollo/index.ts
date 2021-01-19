@@ -4,7 +4,8 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3301/api",
+  // uri: "http://localhost:3301/api",
+  uri: "https://api.loelblog.com/api",
 });
 
 const authLink = setContext((_, { headers }) => {
