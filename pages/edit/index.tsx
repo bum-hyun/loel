@@ -21,9 +21,9 @@ interface EditorPropsWithHandlers extends EditorProps {
 }
 
 const options: OptionTypeBase[] = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  { value: "it", label: "IT" },
+  { value: "food", label: "FOOD" },
+  { value: "life", label: "LIFE" },
 ];
 
 const Editor = dynamic<TuiEditorWithForwardedProps>(() => import("components/TuiEditorWrapper"), { ssr: false });
@@ -86,7 +86,7 @@ const WysiwygEditor: React.FC = () => {
   const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
     const formData = new FormData();
     formData.append("img", blob);
-    const { data } = await service.post("http://localhost:8002/post/image", formData);
+    const { data } = await service.post(process.env.NODE_ENV === "development" ? "http://localhost:3301/upload" : "https://api.loelblog.com", formData);
     callback(data.url, "image");
     const elements = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
     const images: string[] = [];
