@@ -52,8 +52,14 @@ const Post = ({ params }: GetServerSidePropsContext) => {
   return (
     <>
       <Head>
-        <link rel="canonical" href={`https://loelblog.com/${category}/${id}`} data-rh="true" />
-        <meta name="description" content={decodeHTML(post ? post.html : "로엘의 블로그입니다!")} />
+        <link rel="canonical" href={`https://www.loelblog.com/post/${category}/${id}`} />
+        <meta name="title" content={`Loel's Blog ${post ? ` - ` + post.title : ""}`} />
+        <meta name="description" content={decodeHTML(post ? post.html : "음식과 여행을 좋아하는 개발자의 블로그 입니다.")} />
+        <meta property="og:title" content={`Loel's Blog ${post ? ` - ` + post.title : ""}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://www.loelblog.com/post/${category}/${id}`} />
+        <meta property="og:description" content={decodeHTML(post ? post.html : "음식과 여행을 좋아하는 개발자의 블로그 입니다.")} />
+        <meta property="og:image" content="/background.jpg" />
       </Head>
       <PostWrap>
         {post && (

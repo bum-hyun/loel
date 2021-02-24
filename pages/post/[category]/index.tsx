@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Head from "next/head";
 import { Card } from "styles";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
@@ -34,6 +35,16 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
 
   return (
     <>
+      <Head>
+        <link rel="canonical" href={`https://www.loelblog.com/post/${category}`} />
+        <meta name="title" content={`Loel's Blog - ${category}`} />
+        <meta name="description" content={`${category} 글 리스트 입니다.`} />
+        <meta property="og:title" content={`Loel's Blog - ${category}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.loelblog.com/post/${category}`} />
+        <meta property="og:description" content={`${category} 글 리스트 입니다.`} />
+        <meta property="og:image" content="/background.jpg" />
+      </Head>
       <SectionWrap>
         <Title>{category}</Title>
         <CardWrapper>

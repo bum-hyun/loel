@@ -86,7 +86,7 @@ const WysiwygEditor: React.FC = () => {
   const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
     const formData = new FormData();
     formData.append("img", blob);
-    const { data } = await service.post(process.env.NODE_ENV === "development" ? "http://localhost:3301/upload" : "https://api.loelblog.com", formData);
+    const { data } = await service.post("/upload", formData);
     callback(data.url, "image");
     const elements = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
     const images: string[] = [];
