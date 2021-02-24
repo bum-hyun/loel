@@ -22,6 +22,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta property="og:image" content="/background.jpg" />
         <meta name="robots" content="index, follow" />
         <meta name="naver-site-verification" content="350dd4433903daa6e87a92cebc3a476d5f976cb5" />
+        <meta name="google-site-verification" content="571_SUq76JD3DWDusPAghjZkPUMszeQV5DWJUSGRaLU" />
         <title>Hello</title>
       </Head>
       <Global styles={Reset} />
