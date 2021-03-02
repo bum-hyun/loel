@@ -36,7 +36,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
   return (
     <>
       <Head>
-        <link rel="canonical" href={`https://www.loelblog.com/post/${category}`} />
+        <link rel="canonical" href={`https://loelblog.com/post/${category}`} />
         <meta name="title" content={`Loel's Blog - ${category}`} />
         <meta name="description" content={`${category} 글 리스트 입니다.`} />
         <meta property="og:title" content={`Loel's Blog - ${category}`} />
@@ -52,7 +52,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
           {posts &&
             posts.map((item: IReadPost) => {
               return (
-                <Card onClick={() => readPost(`/post/${item.category}/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={"/background.jpg"} alt={"image"} />}>
+                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={"/background.jpg"} alt={"image"} />}>
                   {decodeHTML(item.html!)}
                 </Card>
               );
