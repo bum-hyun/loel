@@ -26,6 +26,7 @@ const Header: React.FC<ILayoutType> = () => {
   const [LoginMutation] = useMutation(LOGIN, {
     onCompleted: (data) => {
       cookie.set("accessToken", data.login.token);
+      localStorage.setItem("user", JSON.stringify({ email: data.login.email, name: data.login.name }));
       setAuthority(true);
       setLoginModal(false);
     },
@@ -111,8 +112,14 @@ const Header: React.FC<ILayoutType> = () => {
         <Logo />
         <Center />
         <Menus>
-          {!authority &&
-            menus.map((item, index) => {
+          {menus.map((item, index) => {
+            if (authority) {
+              return (
+                <Menu key={index} isTop={isTop} href={item.link}>
+                  <MenuName>{item.label}</MenuName>
+                </Menu>
+              );
+            } else {
               if (!item.authority) {
                 return (
                   <Menu key={index} isTop={isTop} href={item.link}>
@@ -120,16 +127,11 @@ const Header: React.FC<ILayoutType> = () => {
                   </Menu>
                 );
               }
-            })}
-          {authority &&
-            menus.map((item, index) => (
-              <Menu key={index} isTop={isTop} href={item.link}>
-                <MenuName>{item.label}</MenuName>
-              </Menu>
-            ))}
+            }
+          })}
         </Menus>
       </HeaderContentsWrap>
-      <ModalButton onClick={() => setLoginModal(true)}>버튼</ModalButton>
+      {!authority && <ModalButton onClick={() => setLoginModal(true)}>버튼</ModalButton>}
       {loginModal && (
         <LoginModalContainer>
           <DarkLayer onClick={handleLoginModal} />
@@ -309,10 +311,11 @@ const DarkLayer = styled.div`
 const LoginModal = styled.div`
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: calc(50% - 20px);
   display: flex;
   flex-direction: column;
-  width: 100%;
+  margin: 0 20px;
+  width: 80%;
   max-width: 568px;
   max-height: 100%;
   color: #000;

@@ -23,7 +23,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="robots" content="index, follow" />
         <meta name="naver-site-verification" content="350dd4433903daa6e87a92cebc3a476d5f976cb5" />
         <meta name="google-site-verification" content="Yy6-Sy6XRLnTkTIKXHteilEWWr1AJLLcQGxwvilrGow" />
-        <title>Hello</title>
+        <title>Loel's Blog</title>
       </Head>
       <Global styles={Reset} />
       <ApolloProvider client={client as any}>

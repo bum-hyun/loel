@@ -13,6 +13,7 @@ interface IReadPost extends IPost {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
+  user: IOneself
 }
 
 interface IPosts {
@@ -23,4 +24,9 @@ interface IPosts {
 interface IResponsePosts {
   items: IReadPost[];
   totalCount: number;
+}
+
+interface IOneself {
+  email: string;
+  name: string;
 }

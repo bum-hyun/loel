@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GetStaticPropsContext, GetServerSidePropsContext } from "next";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
@@ -18,6 +18,7 @@ const Post = ({ params }: GetServerSidePropsContext) => {
   const { category, id } = (params as unknown) as IParams;
 
   const [post, setPost] = useState<IReadPost | null>(null);
+  const [oneself, setOneself] = useState<IOneself | null>(null);
 
   useQuery(GET_POST, {
     fetchPolicy: "cache-first",
@@ -41,7 +42,6 @@ const Post = ({ params }: GetServerSidePropsContext) => {
     await RemovePostMutation({
       variables: { id },
     });
-    // const result = await service.delete(`http://localhost:8002/post/${id}`);
   };
 
   const decodeHTML = (html?: string) => {
@@ -49,17 +49,22 @@ const Post = ({ params }: GetServerSidePropsContext) => {
     return content.substring(0, 150);
   };
 
+  useEffect(() => {
+    setOneself(JSON.parse(localStorage.getItem("user") as string));
+  }, []);
+
   return (
     <>
       <Head>
-        <link rel="canonical" href={`https://www.loelblog.com/post/${category}/${id}`} />
+        <link rel="canonical" href={`https://www.loelblog.com/post/${id}`} />
         <meta name="title" content={`Loel's Blog ${post ? ` - ` + post.title : ""}`} />
         <meta name="description" content={decodeHTML(post ? post.html : "음식과 여행을 좋아하는 개발자의 블로그 입니다.")} />
         <meta property="og:title" content={`Loel's Blog ${post ? ` - ` + post.title : ""}`} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://www.loelblog.com/post/${category}/${id}`} />
+        <meta property="og:url" content={`https://www.loelblog.com/post/${id}`} />
         <meta property="og:description" content={decodeHTML(post ? post.html : "음식과 여행을 좋아하는 개발자의 블로그 입니다.")} />
         <meta property="og:image" content="/background.jpg" />
+        <title>{`Loel's Blog ${post ? ` - ` + post.title : ""}`}</title>
       </Head>
       <PostWrap>
         {post && (
@@ -69,14 +74,16 @@ const Post = ({ params }: GetServerSidePropsContext) => {
               <InfoWrap>
                 <Author>{post.email}</Author>
                 <Date>{dayjs(post.updatedAt).format("YYYY년 MM월 DD일 hh시 mm분 ss초")}</Date>
-                <EditWrap>
-                  <Button onClick={pushEditPage} variant={"warning"}>
-                    수정
-                  </Button>
-                  <Button onClick={remove} variant={"danger"}>
-                    삭제
-                  </Button>
-                </EditWrap>
+                {oneself && oneself.email === post.user.email && (
+                  <EditWrap>
+                    <Button onClick={pushEditPage} variant={"warning"}>
+                      수정
+                    </Button>
+                    <Button onClick={remove} variant={"danger"}>
+                      삭제
+                    </Button>
+                  </EditWrap>
+                )}
               </InfoWrap>
             </HeadWrap>
             <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html as string }} />
@@ -128,7 +135,6 @@ const InfoWrap = styled.div`
 `;
 
 const Author = styled.span`
-  margin-right: 1rem;
   font-weight: 600;
 `;
 
