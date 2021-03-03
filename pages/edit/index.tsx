@@ -84,6 +84,7 @@ const WysiwygEditor: React.FC = () => {
   };
 
   const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
+    await service.get("/any");
     const formData = new FormData();
     formData.append("img", blob);
     const { data } = await service.post("/upload", formData);
