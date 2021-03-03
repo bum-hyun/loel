@@ -43,7 +43,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://www.loelblog.com/${category}`} />
         <meta property="og:description" content={`${category} 글 리스트 입니다.`} />
-        <meta property="og:image" content="/background.jpg" />
+        <meta property="og:image" content="https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg" />
         <title>{`Loel's Blog - ${category}`}</title>
       </Head>
       <SectionWrap>
@@ -52,7 +52,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
           {posts &&
             posts.map((item: IReadPost) => {
               return (
-                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={"/background.jpg"} alt={"image"} />}>
+                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={"https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg"} alt={"image"} />}>
                   {decodeHTML(item.html!)}
                 </Card>
               );

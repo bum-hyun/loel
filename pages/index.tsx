@@ -24,7 +24,7 @@ const Home = () => {
     if (item.image && item.image.length > 0) {
       return item.image[0].replace(/\/original\//, "/thumb/");
     } else {
-      return "/background.png";
+      return "https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg";
     }
   };
 
@@ -47,12 +47,7 @@ const Home = () => {
                   <CardWrapper>
                     {item.items.map((item2) => {
                       return (
-                        <Card
-                          key={item2.id}
-                          title={item2.title}
-                          onClick={() => readPost(`/post/${item2.id}`)}
-                          thumbnail={<img src={thumbnail(item2)} alt={"image"} />}
-                        >
+                        <Card key={item2.id} title={item2.title} onClick={() => readPost(`/post/${item2.id}`)} thumbnail={<img src={thumbnail(item2)} alt={"image"} />}>
                           {decodeHTML(item2.html!)}
                         </Card>
                       );

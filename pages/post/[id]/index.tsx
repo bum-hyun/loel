@@ -15,7 +15,7 @@ import { GET_POST, REMOVE_POST } from "@api/Post";
 const Post = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
 
-  const { category, id } = (params as unknown) as IParams;
+  const { id } = (params as unknown) as IParams;
 
   const [post, setPost] = useState<IReadPost | null>(null);
   const [oneself, setOneself] = useState<IOneself | null>(null);
@@ -30,7 +30,7 @@ const Post = ({ params }: GetServerSidePropsContext) => {
 
   const [RemovePostMutation] = useMutation(REMOVE_POST, {
     onCompleted: () => {
-      router.push(`/${category}`);
+      router.push(`/`);
     },
   });
 
@@ -63,7 +63,7 @@ const Post = ({ params }: GetServerSidePropsContext) => {
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://www.loelblog.com/post/${id}`} />
         <meta property="og:description" content={decodeHTML(post ? post.html : "음식과 여행을 좋아하는 개발자의 블로그 입니다.")} />
-        <meta property="og:image" content="/background.jpg" />
+        <meta property="og:image" content="https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg" />
         <title>{`Loel's Blog ${post ? ` - ` + post.title : ""}`}</title>
       </Head>
       <PostWrap>
