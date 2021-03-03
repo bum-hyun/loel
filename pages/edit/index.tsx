@@ -73,7 +73,7 @@ const WysiwygEditor: React.FC = () => {
 
   const [EditPostMutation] = useMutation(id ? MODIFY_POST : CREATE_POST, {
     onCompleted: () => {
-      router.push(`/post/${post.category}`);
+      router.push(`/${post.category}`);
     },
   });
 
@@ -87,7 +87,7 @@ const WysiwygEditor: React.FC = () => {
     const formData = new FormData();
     formData.append("img", blob);
     const { data } = await service.post("/upload", formData);
-    callback(data.url, "image");
+    callback(data.originalUrl, "image");
     const elements = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
     const images: string[] = [];
     elements.forEach((image) => images.push(image.src));
