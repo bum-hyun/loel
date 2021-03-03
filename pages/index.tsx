@@ -20,6 +20,14 @@ const Home = () => {
     router.push(link);
   };
 
+  const thumbnail = (item: IReadPost) => {
+    if (item.image && item.image.length > 0) {
+      return item.image[0].replace(/\/original\//, "/thumb/");
+    } else {
+      return "/background.png";
+    }
+  };
+
   useQuery(GET_ALL_POSTS, {
     fetchPolicy: "cache-first",
     onCompleted: (data) => {
@@ -42,8 +50,8 @@ const Home = () => {
                         <Card
                           key={item2.id}
                           title={item2.title}
-                          onClick={() => readPost(`/post/${item2.category}/${item2.id}`)}
-                          thumbnail={<img src={"/background.jpg"} alt={"image"} />}
+                          onClick={() => readPost(`/post/${item2.id}`)}
+                          thumbnail={<img src={thumbnail(item2)} alt={"image"} />}
                         >
                           {decodeHTML(item2.html!)}
                         </Card>

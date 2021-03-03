@@ -30,7 +30,7 @@ const Post = ({ params }: GetServerSidePropsContext) => {
 
   const [RemovePostMutation] = useMutation(REMOVE_POST, {
     onCompleted: () => {
-      router.push(`/post/${category}`);
+      router.push(`/${category}`);
     },
   });
 

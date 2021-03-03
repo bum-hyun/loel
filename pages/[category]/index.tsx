@@ -36,12 +36,12 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
   return (
     <>
       <Head>
-        <link rel="canonical" href={`https://loelblog.com/post/${category}`} />
+        <link rel="canonical" href={`https://loelblog.com/${category}`} />
         <meta name="title" content={`Loel's Blog - ${category}`} />
         <meta name="description" content={`${category} 글 리스트 입니다.`} />
         <meta property="og:title" content={`Loel's Blog - ${category}`} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://www.loelblog.com/post/${category}`} />
+        <meta property="og:url" content={`https://www.loelblog.com/${category}`} />
         <meta property="og:description" content={`${category} 글 리스트 입니다.`} />
         <meta property="og:image" content="/background.jpg" />
         <title>{`Loel's Blog - ${category}`}</title>
