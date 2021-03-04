@@ -9,7 +9,7 @@ const Guide: React.FC = () => {
       <Component>
         <Label>카드</Label>
         <Wrap>
-          <Card title={"써보겠습니다아아아아아아아아아아아아길게길게한번써보겠습니"} thumbnail={<img src={".https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg"} alt={"image"} />}>
+          <Card title={"써보겠습니다아아아아아아아아아아아아길게길게한번써보겠습니"} thumbnail={<img src={".https://images.loelblog.com/thumb/1614754054423background.jpg"} alt={"image"} />}>
             길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.
           </Card>
           <Card title={"Hello"}>길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.</Card>

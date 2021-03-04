@@ -8,6 +8,7 @@ import EmptyBox from "styles/Icon/EmptyBox";
 import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_CATEGORY_POSTS } from "@api/Post";
+import { thumbnail } from "@utils/common";
 
 const Posts = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
@@ -43,16 +44,16 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://www.loelblog.com/${category}`} />
         <meta property="og:description" content={`${category} 글 리스트 입니다.`} />
-        <meta property="og:image" content="https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg" />
+        <meta property="og:image" content="https://images.loelblog.com/thumb/1614754054423background.jpg" />
         <title>{`Loel's Blog - ${category}`}</title>
       </Head>
       <SectionWrap>
-        <Title>{category}</Title>
+        <Title>{category?.toUpperCase()}</Title>
         <CardWrapper>
           {posts &&
             posts.map((item: IReadPost) => {
               return (
-                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={"https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg"} alt={"image"} />}>
+                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={thumbnail(item)} alt={"image"} />}>
                   {decodeHTML(item.html!)}
                 </Card>
               );

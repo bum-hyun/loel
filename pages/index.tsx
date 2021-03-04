@@ -5,6 +5,7 @@ import { Card } from "../src/styles";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "@api/Post";
+import { thumbnail } from "@utils/common";
 
 const Home = () => {
   const router = useRouter();
@@ -18,14 +19,6 @@ const Home = () => {
 
   const readPost = (link: string) => {
     router.push(link);
-  };
-
-  const thumbnail = (item: IReadPost) => {
-    if (item.image && item.image.length > 0) {
-      return item.image[0].replace(/\/original\//, "/thumb/");
-    } else {
-      return "https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg";
-    }
   };
 
   useQuery(GET_ALL_POSTS, {
@@ -43,7 +36,7 @@ const Home = () => {
             <SectionWrap key={item.label}>
               {item.items.length > 0 && (
                 <>
-                  <Title>{item.label}</Title>
+                  <Title>{item.label.toUpperCase()}</Title>
                   <CardWrapper>
                     {item.items.map((item2) => {
                       return (

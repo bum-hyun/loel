@@ -36,20 +36,20 @@ const Categories: React.FC = () => {
             if (!item.children) {
               return (
                 <ParentCategory key={item.category}>
-                  <Link href={`/${item.link}?page=1&per=20`}>{item.category}</Link>
+                  <Link href={`/${item.link}`}>{item.category}</Link>
                 </ParentCategory>
               );
             } else {
               return (
                 <div key={item.category}>
                   <ParentCategory key={item.category}>
-                    <Link href={`/${item.link}?page=1&per=20`}>{item.category}</Link>
+                    <Link href={`/${item.link}`}>{item.category}</Link>
                   </ParentCategory>
                   <ChildCategoryWrap>
                     {item.children.map((item2) => {
                       return (
                         <ChildCategory key={item2.category}>
-                          <Link href={`/${item2.link}?page=1&per=20`}>{item2.category}</Link>
+                          <Link href={`/${item2.link}`}>{item2.category}</Link>
                         </ChildCategory>
                       );
                     })}

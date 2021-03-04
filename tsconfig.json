@@ -33,7 +33,8 @@
   },
   "include": [
     "./src/**/*",
-    "./pages/**/*"
+    "./pages/**/*",
+    "./utils/**/*"
   ],
   "exclude": [
     "node_modules"

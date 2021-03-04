@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://loelblog.com" />
         <meta property="og:description" content="음식과 여행을 좋아하는 개발자의 블로그 입니다." />
-        <meta property="og:image" content="https://loel-s3-bucket.s3.ap-northeast-2.amazonaws.com/thumb/1614754054423background.jpg" />
+        <meta property="og:image" content="https://images.loelblog.com/thumb/1614754054423background.jpg" />
         <meta name="robots" content="index, follow" />
         <meta name="naver-site-verification" content="350dd4433903daa6e87a92cebc3a476d5f976cb5" />
         <meta name="google-site-verification" content="Yy6-Sy6XRLnTkTIKXHteilEWWr1AJLLcQGxwvilrGow" />
