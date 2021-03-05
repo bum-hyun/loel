@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { Global } from "@emotion/core";
@@ -7,6 +7,14 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import client from "../apollo";
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const [authority, setAuthority] = useState<boolean>(false);
+
+  const authenticated = (state: boolean) => {
+    setAuthority(state);
+  };
+
+  const modifiedProps = { ...pageProps, authenticated, authority };
+
   return (
     <>
       <Head>
@@ -27,7 +35,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
       <Global styles={Reset} />
       <ApolloProvider client={client as any}>
-        <Component {...pageProps} />
+        <Component {...modifiedProps} />
       </ApolloProvider>
     </>
   );

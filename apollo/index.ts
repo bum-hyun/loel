@@ -10,14 +10,19 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = cookie.get("accessToken");
-  if (token) {
-    return {
-      headers: {
-        ...headers,
-        authorization: token,
-      },
-    };
+  const user = localStorage.getItem("user");
+
+  if (!token) {
+    if (user) localStorage.removeItem("user");
+    return;
   }
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token,
+    },
+  };
 });
 
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {

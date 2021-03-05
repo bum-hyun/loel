@@ -5,15 +5,20 @@ import Categories from "../components/Categories";
 import { GetServerSidePropsContext } from "next";
 import CheckList from "components/CheckList";
 
-const DefaultLayout = (Component: ({ params }: GetServerSidePropsContext) => JSX.Element) => (params: GetServerSidePropsContext) => {
+interface Props extends GetServerSidePropsContext {
+  authority: boolean;
+  authenticated: (state: boolean) => void;
+}
+
+const DefaultLayout = (Component: (props: Props) => JSX.Element) => (props: Props) => {
   return (
     <>
-      <Header />
+      <Header authority={props.authority} authenticated={props.authenticated} />
       <Container>
         <Background />
         <Wrap>
           <LeftWrap>
-            <Component {...params} />
+            <Component {...props} />
           </LeftWrap>
           <RightWrap>
             <Categories />

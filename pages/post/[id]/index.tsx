@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { GetStaticPropsContext, GetServerSidePropsContext } from "next";
+import React, { useState } from "react";
+import { GetServerSidePropsContext } from "next";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import dayjs from "dayjs";
@@ -12,13 +12,17 @@ import { Button } from "styles";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { GET_POST, REMOVE_POST } from "@api/Post";
 
-const Post = ({ params }: GetServerSidePropsContext) => {
+interface Props extends GetServerSidePropsContext {
+  authority: boolean;
+  authenticated: (state: boolean) => void;
+}
+
+const Post = ({ params, authority }: Props) => {
   const router = useRouter();
 
   const { id } = (params as unknown) as IParams;
 
   const [post, setPost] = useState<IReadPost | null>(null);
-  const [oneself, setOneself] = useState<IOneself | null>(null);
 
   useQuery(GET_POST, {
     fetchPolicy: "cache-first",
@@ -49,10 +53,6 @@ const Post = ({ params }: GetServerSidePropsContext) => {
     return content.substring(0, 150);
   };
 
-  useEffect(() => {
-    setOneself(JSON.parse(localStorage.getItem("user") as string));
-  }, []);
-
   return (
     <>
       <Head>
@@ -74,7 +74,7 @@ const Post = ({ params }: GetServerSidePropsContext) => {
               <InfoWrap>
                 <Author>{post.email}</Author>
                 <Date>{dayjs(post.updatedAt).format("YYYY년 MM월 DD일 hh시 mm분 ss초")}</Date>
-                {oneself && oneself.email === post.user.email && (
+                {authority && (
                   <EditWrap>
                     <Button onClick={pushEditPage} variant={"warning"}>
                       수정
@@ -94,7 +94,7 @@ const Post = ({ params }: GetServerSidePropsContext) => {
   );
 };
 
-export async function getServerSideProps({ params }: GetStaticPropsContext) {
+export async function getServerSideProps({ params }: Props) {
   return {
     props: { params },
   };

@@ -40,7 +40,7 @@ const WysiwygEditor: React.FC = () => {
   const editorRef = React.useRef<EditorType>();
 
   useQuery(GET_POST, {
-    fetchPolicy: "cache-first",
+    fetchPolicy: "network-only",
     variables: { id },
     skip: !id,
     onCompleted: (data) => {

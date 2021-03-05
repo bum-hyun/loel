@@ -15,19 +15,18 @@ const menus: { label: string; link: string; authority?: boolean }[] = [
   { label: "Setting", link: "/setting", authority: true },
 ];
 
-const Header: React.FC<ILayoutType> = () => {
+const Header: React.FC<ExtendProps> = ({ authority, authenticated }) => {
   const [isTop, setIsTop] = useState<boolean>(true);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [registerModal, setRegisterModal] = useState<boolean>(false);
   const [loginInput, setLoginInput] = useState({ email: "", password: "" });
   const [registerInput, setRegisterInput] = useState({ email: "", name: "", password: "" });
-  const [authority, setAuthority] = useState<boolean>(false);
 
   const [LoginMutation] = useMutation(LOGIN, {
     onCompleted: (data) => {
       cookie.set("accessToken", data.login.token);
       localStorage.setItem("user", JSON.stringify({ email: data.login.email, name: data.login.name }));
-      setAuthority(true);
+      authenticated(true);
       setLoginModal(false);
     },
   });
@@ -42,7 +41,7 @@ const Header: React.FC<ILayoutType> = () => {
   useEffect(() => {
     const token = cookie.get("accessToken");
     if (token) {
-      setAuthority(true);
+      authenticated(true);
     }
   }, [authority]);
 
@@ -81,6 +80,12 @@ const Header: React.FC<ILayoutType> = () => {
     LoginMutation({
       variables: { loginInput },
     });
+  };
+
+  const enterLogin = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      login();
+    }
   };
 
   const register = () => {
@@ -147,7 +152,7 @@ const Header: React.FC<ILayoutType> = () => {
                 <LoginInput name={"email"} placeholder={"이메일"} onChange={handleLoginInput} />
               </LoginInputWrap>
               <LoginInputWrap>
-                <LoginInput name={"password"} type={"password"} placeholder={"비밀번호"} onChange={handleLoginInput} />
+                <LoginInput name={"password"} type={"password"} placeholder={"비밀번호"} onChange={handleLoginInput} onKeyPress={enterLogin} />
               </LoginInputWrap>
               <LoginButtonWrap>
                 <Button width={"100%"} height={48} variant={"danger"} onClick={login}>
