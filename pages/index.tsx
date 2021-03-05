@@ -40,7 +40,12 @@ const Home = () => {
                   <CardWrapper>
                     {item.items.map((item2) => {
                       return (
-                        <Card key={item2.id} title={item2.title} onClick={() => readPost(`/post/${item2.id}`)} thumbnail={<img src={thumbnail(item2)} alt={"image"} />}>
+                        <Card
+                          key={item2.id}
+                          title={item2.title}
+                          onClick={() => readPost(`/post/${item2.id}`)}
+                          thumbnail={item2.image && item2.image!.length > 0 ? thumbnail(item2.image) : ""}
+                        >
                           {decodeHTML(item2.html!)}
                         </Card>
                       );

@@ -5,7 +5,7 @@ import { css } from "@emotion/core";
 interface ICard {
   title?: string;
   width?: number;
-  thumbnail?: React.ReactNode;
+  thumbnail?: string;
   children: React.ReactNode;
   onClick?: () => void;
 }
@@ -19,7 +19,11 @@ const Card: React.FC<ICard> = ({ width, title, onClick, thumbnail, children }) =
     <Outer className={"card"} onClick={onClick}>
       <Wrap width={width}>
         {title && <CardHeader>{title}</CardHeader>}
-        {thumbnail && <ThumbnailWrap>{thumbnail}</ThumbnailWrap>}
+        {thumbnail && (
+          <ThumbnailWrap>
+            <img src={thumbnail} />
+          </ThumbnailWrap>
+        )}
         <CardBody>
           <p>{children}</p>
         </CardBody>
@@ -44,7 +48,7 @@ const Wrap = styled.div<ICardWrap>`
   position: relative;
   width: 100%;
   max-width: 100%;
-  height: 100%;
+  height: calc(495px - 2rem);
   font-size: 1rem;
   line-height: 1.2;
   background-color: #fff;

@@ -53,7 +53,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
           {posts &&
             posts.map((item: IReadPost) => {
               return (
-                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={<img src={thumbnail(item)} alt={"image"} />}>
+                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={item.image && item.image!.length > 0 ? thumbnail(item.image) : ""}>
                   {decodeHTML(item.html!)}
                 </Card>
               );
