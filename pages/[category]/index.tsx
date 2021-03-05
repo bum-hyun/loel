@@ -25,9 +25,13 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
     },
   });
 
-  const decodeHTML = (html: string) => {
-    const content = html.replace(/(<([^>]+)>)/gi, "");
-    return content.substring(0, 150);
+  const decodeHTML = (item: IReadPost) => {
+    const content = item.html!.replace(/(<([^>]+)>)/gi, "");
+    if (item.image && item.image.length > 0) {
+      return content.substring(0, 150);
+    } else {
+      return content.substring(0, 500);
+    }
   };
 
   const readPost = (link: string) => {
@@ -54,7 +58,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
             posts.map((item: IReadPost) => {
               return (
                 <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={item.image && item.image!.length > 0 ? thumbnail(item.image) : ""}>
-                  {decodeHTML(item.html!)}
+                  {decodeHTML(item!)}
                 </Card>
               );
             })}

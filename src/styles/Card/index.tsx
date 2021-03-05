@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styles/styled";
 import { css } from "@emotion/core";
 
@@ -24,7 +24,7 @@ const Card: React.FC<ICard> = ({ width, title, onClick, thumbnail, children }) =
             <img src={thumbnail} />
           </ThumbnailWrap>
         )}
-        <CardBody>
+        <CardBody expandable={thumbnail}>
           <p>{children}</p>
         </CardBody>
       </Wrap>
@@ -72,15 +72,19 @@ const CardHeader = styled.div`
   ${LongSentence}
 `;
 
-const CardBody = styled.div`
+const MaxLine = css`
+  -webkit-line-clamp: 3;
+`;
+
+const CardBody = styled.div<{ expandable?: string }>`
   padding: 1.25rem;
 
   p {
     display: -webkit-box;
     font-size: 0.875rem;
     line-height: 1.5;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    ${(props) => props.expandable && MaxLine}
     ${LongSentence}
     word-break: break-word;
     overflow-wrap: break-word;

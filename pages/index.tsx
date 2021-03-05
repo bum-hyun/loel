@@ -12,9 +12,13 @@ const Home = () => {
 
   const [posts, setPosts] = useState<IPosts[] | null>([]);
 
-  const decodeHTML = (html: string) => {
-    const content = html.replace(/(<([^>]+)>)/gi, "");
-    return content.substring(0, 150);
+  const decodeHTML = (item: IReadPost) => {
+    const content = item.html!.replace(/(<([^>]+)>)/gi, "");
+    if (item.image && item.image.length > 0) {
+      return content.substring(0, 150);
+    } else {
+      return content.substring(0, 500);
+    }
   };
 
   const readPost = (link: string) => {
@@ -46,7 +50,7 @@ const Home = () => {
                           onClick={() => readPost(`/post/${item2.id}`)}
                           thumbnail={item2.image && item2.image!.length > 0 ? thumbnail(item2.image) : ""}
                         >
-                          {decodeHTML(item2.html!)}
+                          {decodeHTML(item2!)}
                         </Card>
                       );
                     })}
