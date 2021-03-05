@@ -3,6 +3,7 @@ import Header from "layouts/Header";
 import styled from "styles/styled";
 import Categories from "../components/Categories";
 import { GetServerSidePropsContext } from "next";
+import CheckList from "components/CheckList";
 
 const DefaultLayout = (Component: ({ params }: GetServerSidePropsContext) => JSX.Element) => (params: GetServerSidePropsContext) => {
   return (
@@ -16,6 +17,7 @@ const DefaultLayout = (Component: ({ params }: GetServerSidePropsContext) => JSX
           </LeftWrap>
           <RightWrap>
             <Categories />
+            <CheckList />
           </RightWrap>
         </Wrap>
       </Container>
@@ -53,10 +55,15 @@ const RightWrap = styled.div`
 
   @media (min-width: 1024px) {
     display: flex;
+    flex-direction: column;
     flex: 0 0 300px;
     width: 100%;
     height: 100%;
     margin-left: 1rem;
     padding: 0 1rem;
+
+    > div + div {
+      margin-top: 2rem;
+    }
   }
 `;
