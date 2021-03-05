@@ -15,3 +15,8 @@ interface IIcon {
   height?: number;
   color?: string;
 }
+
+interface ExtendProps {
+  authority: boolean;
+  authenticated: (state: boolean) => void;
+}
