@@ -94,7 +94,7 @@ const WysiwygEditor = () => {
     const formData = new FormData();
     formData.append("img", blob);
     const { data } = await service.post("/upload", formData);
-    callback(data.originalUrl, "image");
+    callback(data.original, "image");
     const elements = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
     const images: string[] = [];
     elements.forEach((image) => images.push(image.src));
