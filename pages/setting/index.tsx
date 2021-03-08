@@ -1,7 +1,7 @@
 import React from "react";
 import { EmptyLayout } from "layouts";
 
-const Setting: React.FC = () => {
+const Setting = () => {
   return (
     <>
       <div>dasdas</div>
