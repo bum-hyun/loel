@@ -63,7 +63,7 @@ const Post = ({ params, authority }: Props) => {
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://www.loelblog.com/post/${id}`} />
         <meta property="og:description" content={decodeHTML(post ? post.html : "음식과 여행을 좋아하는 개발자의 블로그 입니다.")} />
-        <meta property="og:image" content="https://images.loelblog.com/thumb/1614754054423background.jpg" />
+        <meta property="og:image" content="https://images.loelblog.com/thumb/background.jpg" />
         <title>{`Loel's Blog ${post ? ` - ` + post.title : ""}`}</title>
       </Head>
       <PostWrap>

@@ -430,4 +430,24 @@ export default css`
   .tui-md-code-block {
     font-family: "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   }
+
+  .tui-editor-contents p {
+    margin: 1rem 0;
+  }
+
+  .tui-editor-contents blockquote p,
+  .tui-editor-contents blockquote ul,
+  .tui-editor-contents blockquote ol {
+    color: #222;
+  }
+
+  .tui-editor-contents blockquote {
+    padding: 1rem;
+    background: #f1f1f1;
+    border-left: 4px solid #dc0000;
+  }
+
+  .tui-editor-contents pre {
+    margin: 16px 0 8px;
+  }
 `;

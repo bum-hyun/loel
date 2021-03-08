@@ -48,7 +48,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://www.loelblog.com/${category}`} />
         <meta property="og:description" content={`${category} 글 리스트 입니다.`} />
-        <meta property="og:image" content="https://images.loelblog.com/thumb/1614754054423background.jpg" />
+        <meta property="og:image" content="https://images.loelblog.com/thumb/background.jpg" />
         <title>{`Loel's Blog - ${category}`}</title>
       </Head>
       <SectionWrap>
