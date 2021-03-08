@@ -11,6 +11,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Button } from "styles";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { GET_POST, REMOVE_POST } from "@api/Post";
+import "prismjs/themes/prism.css";
 
 interface Props extends GetServerSidePropsContext {
   authority: boolean;

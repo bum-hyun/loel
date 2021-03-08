@@ -62,7 +62,9 @@ const WysiwygEditor = () => {
     }
 
     const instance = editorRef.current.getInstance();
-    setPost({ ...post, html: instance.getHtml(), markdown: instance.getMarkdown() });
+    const html = document.querySelector(".tui-editor-contents")!.innerHTML;
+
+    setPost({ ...post, html, markdown: instance.getMarkdown() });
   };
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {

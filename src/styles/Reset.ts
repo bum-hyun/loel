@@ -450,4 +450,12 @@ export default css`
   .tui-editor-contents pre {
     margin: 16px 0 8px;
   }
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    background: inherit;
+  }
 `;

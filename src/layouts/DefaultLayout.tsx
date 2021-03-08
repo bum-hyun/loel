@@ -66,7 +66,7 @@ const RightWrap = styled.div`
     width: 100%;
     height: 100%;
     margin-left: 1rem;
-    padding: 0 1rem;
+    padding-left: 1rem;
 
     > div + div {
       margin-top: 2rem;
