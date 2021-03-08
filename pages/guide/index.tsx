@@ -3,7 +3,7 @@ import { Button, Card, Collapse, Panel } from "styles";
 import styled from "styles/styled";
 import { EmptyLayout } from "layouts";
 
-const Guide: React.FC = () => {
+const Guide = () => {
   return (
     <Container>
       <Component>
