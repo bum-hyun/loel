@@ -1,15 +1,21 @@
 import React from "react";
 import Header from "layouts/Header";
 import styled from "styles/styled";
+import { GetServerSidePropsContext } from "next";
 
-const EmptyLayout = (Component: React.FC) => () => {
+interface Props extends GetServerSidePropsContext {
+  authority: boolean;
+  authenticated: (state: boolean) => void;
+}
+
+const EmptyLayout = (Component: (props: Props) => JSX.Element) => (props: Props) => {
   return (
     <>
-      <Header />
+      <Header authority={props.authority} authenticated={props.authenticated} />
       <Container>
         <Background />
         <Wrap>
-          <Component />
+          <Component {...props} />
         </Wrap>
       </Container>
     </>

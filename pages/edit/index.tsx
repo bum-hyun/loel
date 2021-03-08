@@ -15,29 +15,36 @@ import styled from "styles/styled";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { CREATE_POST, MODIFY_POST, GET_POST } from "@api/Post";
+import { GET_CATEGORIES } from "@api/Category";
 
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
 }
-
-const options: OptionTypeBase[] = [
-  { value: "it", label: "IT" },
-  { value: "food", label: "FOOD" },
-  { value: "life", label: "LIFE" },
-];
 
 const Editor = dynamic<TuiEditorWithForwardedProps>(() => import("components/TuiEditorWrapper"), { ssr: false });
 const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, EditorPropsWithHandlers>((props, ref) => (
   <Editor {...props} forwardedRef={ref as React.MutableRefObject<EditorType>} />
 ));
 
-const WysiwygEditor: React.FC = () => {
+const WysiwygEditor = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const [post, setPost] = useState<IPost>({ title: "", category: "", html: "", email: "ru_bryunak@naver.com", markdown: "" });
   const [image, setImage] = useState<string[]>([]);
+  const [options, setOptions] = useState<OptionTypeBase[]>([]);
   const editorRef = React.useRef<EditorType>();
+
+  useQuery(GET_CATEGORIES, {
+    fetchPolicy: "cache-first",
+    onCompleted: (data) => {
+      const dummy = data.getCategories.reduce((acc: OptionTypeBase[], cur: ICategoryWithChildren) => {
+        acc.push({ value: cur.category.toLowerCase(), label: cur.category });
+        return acc;
+      }, []);
+      setOptions(dummy);
+    },
+  });
 
   useQuery(GET_POST, {
     fetchPolicy: "network-only",
