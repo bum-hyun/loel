@@ -14,7 +14,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<IButton> = ({ width, height, size, variant, shape, disabled, children, ...rest }) => {
   return (
-    <StyledButton width={width} height={height} variant={variant} size={size} shape={shape} disabled={disabled} {...rest}>
+    <StyledButton width={width ? width : ""} height={height ? height : ""} variant={variant} size={size} shape={shape} disabled={disabled} {...rest}>
       {children}
     </StyledButton>
   );
@@ -108,7 +108,7 @@ const size = {
   `,
   medium: css`
     padding: 0 16px;
-    height: 32px;
+    height: 36px;
     font-size: 16px;
   `,
   big: css`
@@ -122,8 +122,9 @@ const StyledButton = styled.button<IButton>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: ${(p) => (p.width && typeof p.width === "number" ? `${p.width}px` : `${p.width}`)} !important;
-  height: ${(p) => (p.height && typeof p.height === "number" ? `${p.height}px` : `${p.height}`)} !important;
+  font-weight: 600;
+  ${(p) => (p.width ? (typeof p.width === "number" ? `width: ${p.width}px !important;` : `width: ${p.width} !important;`) : "")}
+  ${(p) => (p.height ? (typeof p.height === "number" ? `height: ${p.height}px !important;` : `height: ${p.height} !important;`) : "")}
   border: none;
   cursor: pointer;
   outline: none;

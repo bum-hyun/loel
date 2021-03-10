@@ -458,4 +458,10 @@ export default css`
   .style .token.string {
     background: inherit;
   }
+
+  :not(pre) > code[class*="language-"],
+  pre[class*="language-"] {
+    background: #fbfbfb;
+    border-radius: 4px;
+  }
 `;

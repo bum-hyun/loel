@@ -20,7 +20,6 @@ export default CheckList;
 const Border = styled.div`
   padding: 3rem;
   width: 100%;
-  border: 1px solid #eee;
 
   p + p {
     margin-top: 0.675rem;

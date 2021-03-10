@@ -31,3 +31,9 @@ interface IOneself {
   email: string;
   name: string;
 }
+
+interface IWriteComment {
+  nickname: string;
+  password: string;
+  contents: string;
+}

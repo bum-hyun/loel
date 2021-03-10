@@ -10,3 +10,8 @@ export const decodeHTML = (item: IReadPost) => {
     return content.substring(0, 500);
   }
 };
+
+export const decodeHTMLForHeader = (html?: string) => {
+  const content = html!.replace(/(<([^>]+)>)/gi, "");
+  return content.substring(0, 150);
+};

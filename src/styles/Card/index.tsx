@@ -52,7 +52,7 @@ const Wrap = styled.div<ICardWrap>`
   font-size: 1rem;
   line-height: 1.2;
   background-color: #fff;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #efefef;
   border-radius: 2px;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, -webkit-box-shadow 0.3s;

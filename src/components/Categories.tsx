@@ -68,7 +68,6 @@ export default Categories;
 const Border = styled.div`
   padding: 3rem;
   width: 100%;
-  border: 1px solid #eee;
 `;
 
 const All = styled.a`

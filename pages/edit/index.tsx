@@ -149,6 +149,7 @@ const RowWrap = styled.div`
 const SelectWrap = styled(Select)`
   width: 300px;
   font-size: 0.875rem;
+  z-index: 3;
 
   > div {
     border-color: #e5e5e5;
