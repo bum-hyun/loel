@@ -8,7 +8,7 @@ import EmptyBox from "styles/Icon/EmptyBox";
 import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_CATEGORY_POSTS } from "@api/Post";
-import { thumbnail } from "@utils/common";
+import { thumbnail, decodeHTML } from "@utils/common";
 
 const Posts = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
@@ -24,15 +24,6 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
       setPosts(data.getCategoryPosts.length > 0 ? data.getCategoryPosts : null);
     },
   });
-
-  const decodeHTML = (item: IReadPost) => {
-    const content = item.html!.replace(/(<([^>]+)>)/gi, "");
-    if (item.image && item.image.length > 0) {
-      return content.substring(0, 150);
-    } else {
-      return content.substring(0, 500);
-    }
-  };
 
   const readPost = (link: string) => {
     router.push(link);

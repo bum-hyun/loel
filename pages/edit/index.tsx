@@ -30,7 +30,7 @@ const WysiwygEditor = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [post, setPost] = useState<IPost>({ title: "", category: "", html: "", email: "ru_bryunak@naver.com", markdown: "" });
+  const [post, setPost] = useState<IPost>({ title: "", category: "", html: "", html2: "", email: "ru_bryunak@naver.com", markdown: "" });
   const [image, setImage] = useState<string[]>([]);
   const [options, setOptions] = useState<OptionTypeBase[]>([]);
   const editorRef = React.useRef<EditorType>();
@@ -52,7 +52,7 @@ const WysiwygEditor = () => {
     skip: !id,
     onCompleted: (data) => {
       const post = data.getPost;
-      setPost({ email: post.user.email, category: post.category, title: post.title, html: post.html, markdown: post.markdown, image: post.image });
+      setPost({ email: post.user.email, category: post.category, title: post.title, html: post.html, markdown: post.markdown, image: post.image, html2: post.html2 });
     },
   });
 
@@ -62,9 +62,9 @@ const WysiwygEditor = () => {
     }
 
     const instance = editorRef.current.getInstance();
-    const html = document.querySelector(".tui-editor-contents")!.innerHTML;
+    const html2 = document.querySelector(".tui-editor-contents")!.innerHTML;
 
-    setPost({ ...post, html, markdown: instance.getMarkdown() });
+    setPost({ ...post, html: instance.getHtml(), html2, markdown: instance.getMarkdown() });
   };
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {

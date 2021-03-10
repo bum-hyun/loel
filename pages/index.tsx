@@ -5,21 +5,12 @@ import { Card } from "../src/styles";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "@api/Post";
-import { thumbnail } from "@utils/common";
+import { thumbnail, decodeHTML } from "@utils/common";
 
 const Home = () => {
   const router = useRouter();
 
   const [posts, setPosts] = useState<IPosts[] | null>([]);
-
-  const decodeHTML = (item: IReadPost) => {
-    const content = item.html!.replace(/(<([^>]+)>)/gi, "");
-    if (item.image && item.image.length > 0) {
-      return content.substring(0, 150);
-    } else {
-      return content.substring(0, 500);
-    }
-  };
 
   const readPost = (link: string) => {
     router.push(link);

@@ -4,6 +4,7 @@ interface IPost {
   category?: string | null;
   html?: string;
   markdown?: string;
+  html2?: string;
   title?: string;
   image?: string[]
 }
