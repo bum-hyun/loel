@@ -221,6 +221,7 @@ const ContentWrap = styled.article`
   font-size: 1rem;
 
   img {
+    display: block;
     max-width: 600px;
   }
 `;
