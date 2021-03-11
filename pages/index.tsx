@@ -75,17 +75,10 @@ const CardWrapper = styled.div`
     }
   }
 
-  @media (min-width: 1024px) {
-    > div {
-      flex: 1 0 50%;
-      max-width: 50%;
-    }
-  }
-
   @media (min-width: 1350px) {
     > div {
-      flex: 1 0 25%;
-      max-width: 25%;
+      flex: 1 0 33%;
+      max-width: 33%;
     }
   }
 `;
