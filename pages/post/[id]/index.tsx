@@ -131,7 +131,7 @@ const Post = ({ params, authority }: Props) => {
                 )}
               </InfoWrap>
             </HeadWrap>
-            <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html2 ? (post.html as string) : (post.html as string) }} />
+            <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html2 ? (post.html2 as string) : (post.html as string) }} />
           </PostWrap>
           <CommentRegisterWrap>
             <TotalComment>댓글 0</TotalComment>
