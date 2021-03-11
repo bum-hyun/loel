@@ -134,7 +134,7 @@ const Post = ({ params, authority }: Props) => {
             <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html2 ? (post.html2 as string) : (post.html as string) }} />
           </PostWrap>
           <CommentRegisterWrap>
-            <TotalComment>댓글 0</TotalComment>
+            <TotalComment>댓글 {comments ? comments.length : 0}</TotalComment>
             <div>
               <CommentWriterWrap>
                 <CommentWriterInput name={"name"} maxLength={40} value={comment.name} onChange={handleCommentInput} placeholder={"닉네임"} />
@@ -219,6 +219,10 @@ const CreatedAt = styled.span``;
 
 const ContentWrap = styled.article`
   font-size: 1rem;
+
+  img {
+    max-width: 600px;
+  }
 `;
 
 const EditWrap = styled.div`
