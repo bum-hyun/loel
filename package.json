@@ -21,7 +21,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
     "axios": "^0.21.0",
-    "dayjs": "^1.9.7",
+    "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "emotion-reset": "^2.0.7",
     "emotion-theming": "^10.0.27",

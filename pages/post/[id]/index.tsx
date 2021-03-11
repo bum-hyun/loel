@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
-import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
@@ -10,9 +9,9 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Button } from "styles";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_POST, REMOVE_POST } from "@api/Post";
+import { GET_POST, REMOVE_POST, CREATE_COMMENT, GET_COMMENTS } from "@api/Post";
 import "prismjs/themes/prism.css";
-import { decodeHTMLForHeader } from "@utils/common";
+import { decodeHTMLForHeader, dateDisplay } from "@utils/common";
 import { css } from "@emotion/core";
 
 interface Props extends GetServerSidePropsContext {
@@ -26,13 +25,22 @@ const Post = ({ params, authority }: Props) => {
   const { id } = (params as unknown) as IParams;
 
   const [post, setPost] = useState<IReadPost | null>(null);
-  const [comment, setComment] = useState<IWriteComment>({ nickname: "", password: "", contents: "" });
+  const [comments, setComments] = useState<IComments[] | null>(null);
+  const [comment, setComment] = useState<IWriteComment>({ name: "", password: "", contents: "", class: 0 });
 
   useQuery(GET_POST, {
     fetchPolicy: "cache-first",
     variables: { id },
     onCompleted: (data) => {
       setPost(data.getPost);
+    },
+  });
+
+  useQuery(GET_COMMENTS, {
+    fetchPolicy: "cache-first",
+    variables: { postId: id },
+    onCompleted: (data) => {
+      setComments(data.getComments);
     },
   });
 
@@ -62,9 +70,16 @@ const Post = ({ params, authority }: Props) => {
     setComment({ ...comment, [name]: value });
   };
 
-  const registerComment = () => {
-    const { nickname, password, contents } = comment;
-    if (!nickname) {
+  const [CreateCommentMutation] = useMutation(CREATE_COMMENT, {
+    refetchQueries: [{ query: GET_COMMENTS, variables: { postId: id } }],
+    onCompleted: () => {
+      setComment({ name: "", password: "", contents: "", class: 0 });
+    },
+  });
+
+  const registerComment = async () => {
+    const { name, password, contents } = comment;
+    if (!name) {
       alert("닉네임을 입력해주세요.");
       return;
     }
@@ -76,6 +91,11 @@ const Post = ({ params, authority }: Props) => {
       alert("댓글 내용을 입력해주세요.");
       return;
     }
+
+    const user = JSON.parse(localStorage.getItem("user") as string);
+    await CreateCommentMutation({
+      variables: { comment, postId: id, email: user.email },
+    });
   };
 
   return (
@@ -91,14 +111,14 @@ const Post = ({ params, authority }: Props) => {
         <meta property="og:image" content="https://images.loelblog.com/thumb/background.jpg" />
         <title>{`Loel's Blog ${post ? ` - ` + post.title : ""}`}</title>
       </Head>
-      <PostWrap>
-        {post && (
-          <>
+      {post && (
+        <>
+          <PostWrap>
             <HeadWrap>
               <Title>{post.title}</Title>
               <InfoWrap>
                 <Author>{post.email}</Author>
-                <Date>{dayjs(post.updatedAt).format("YYYY년 MM월 DD일 hh시 mm분 ss초")}</Date>
+                <CreatedAt>{dateDisplay(post.updatedAt)}</CreatedAt>
                 {authority && (
                   <EditWrap>
                     <Button onClick={pushEditPage} variant={"warning"}>
@@ -112,25 +132,39 @@ const Post = ({ params, authority }: Props) => {
               </InfoWrap>
             </HeadWrap>
             <ContentWrap className={"tui-editor-contents"} dangerouslySetInnerHTML={{ __html: post.html2 ? (post.html as string) : (post.html as string) }} />
-          </>
-        )}
-      </PostWrap>
-      <CommentRegisterWrap>
-        <TotalComment>댓글 0</TotalComment>
-        <div>
-          <CommentWriterWrap>
-            <CommentWriterInput name={"nickname"} maxLength={40} value={comment.nickname} onChange={handleCommentInput} placeholder={"닉네임"} />
-            <CommentWriterInput name={"password"} maxLength={40} value={comment.password} onChange={handleCommentInput} placeholder={"비밀번호"} />
-          </CommentWriterWrap>
-          <InputComment name={"contents"} value={comment.contents} onChange={handleCommentInput} onInput={autoIncreaseHeight} placeholder={"댓글을 남겨주세요."} />
-          <CommentRegisterButton>
-            <Button variant={"success"} width={120} height={40} onClick={registerComment}>
-              댓글 작성
-            </Button>
-          </CommentRegisterButton>
-        </div>
-      </CommentRegisterWrap>
-      <CommentWrap>이야이야이야</CommentWrap>
+          </PostWrap>
+          <CommentRegisterWrap>
+            <TotalComment>댓글 0</TotalComment>
+            <div>
+              <CommentWriterWrap>
+                <CommentWriterInput name={"name"} maxLength={40} value={comment.name} onChange={handleCommentInput} placeholder={"닉네임"} />
+                <CommentWriterInput name={"password"} maxLength={40} value={comment.password} onChange={handleCommentInput} placeholder={"비밀번호"} />
+              </CommentWriterWrap>
+              <InputComment name={"contents"} value={comment.contents} onChange={handleCommentInput} onInput={autoIncreaseHeight} placeholder={"댓글을 남겨주세요."} />
+              <CommentRegisterButton>
+                <Button variant={"success"} width={120} height={40} onClick={registerComment}>
+                  댓글 작성
+                </Button>
+              </CommentRegisterButton>
+            </div>
+          </CommentRegisterWrap>
+          <CommentsWrap>
+            {comments &&
+              comments.length > 0 &&
+              comments.map((item) => {
+                return (
+                  <CommentWrap key={item.id}>
+                    <CommentInfoWrap>
+                      <CommentWriterName>{item.name}</CommentWriterName>
+                      <CommentCreatedAt>{dateDisplay(item.createdAt)}</CommentCreatedAt>
+                    </CommentInfoWrap>
+                    <Comment>{item.contents}</Comment>
+                  </CommentWrap>
+                );
+              })}
+          </CommentsWrap>
+        </>
+      )}
     </>
   );
 };
@@ -148,7 +182,7 @@ const Border = css`
   border-radius: 4px;
 `;
 
-const PostWrap = styled.div`
+const PostWrap = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -181,9 +215,9 @@ const Author = styled.span`
   font-weight: 600;
 `;
 
-const Date = styled.span``;
+const CreatedAt = styled.span``;
 
-const ContentWrap = styled.section`
+const ContentWrap = styled.article`
   font-size: 1rem;
 `;
 
@@ -221,8 +255,8 @@ const CommentRegisterButton = styled.div`
   justify-content: flex-end;
 `;
 
-const CommentWrap = styled.div`
-  margin-top: 1.5rem;
+const CommentsWrap = styled.div`
+  margin: 1.5rem 0 3rem;
 `;
 
 const CommentWriterWrap = styled.div`
@@ -241,4 +275,34 @@ const CommentWriterInput = styled.input`
   + input {
     margin-left: 1rem;
   }
+`;
+
+const CommentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #efefef;
+`;
+
+const CommentInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+`;
+
+const CommentWriterName = styled.div`
+  font-weight: 600;
+  margin-bottom: 5px;
+`;
+
+const CommentCreatedAt = styled.div`
+  font-size: 0.875rem;
+  color: #8a8a8a;
+`;
+
+const Comment = styled.div`
+  font-size: 1.2rem;
+  line-height: 1.5;
 `;

@@ -32,7 +32,7 @@ const Header: React.FC<ExtendProps> = ({ authority, authenticated }) => {
   });
 
   const [RegisterMutation] = useMutation(REGISTER, {
-    onCompleted: (data) => {
+    onCompleted: () => {
       setLoginModal(true);
       setRegisterModal(false);
     },
@@ -224,13 +224,15 @@ const HeaderContainer = styled.header<IHeader>`
     background-image: ${(p) => (p.isTop ? "linear-gradient(to bottom, #000, rgba(0, 0, 0, 0))" : "linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0))")};
     content: "";
     height: 140%;
-    left: 0;
+    left: 50%;
     pointer-events: none;
     position: absolute;
     top: 0;
-    transition: 150ms opacity ease;
+    max-width: 1440px;
     width: 100%;
     z-index: 0;
+    transform: translateX(-50%);
+    transition: 150ms opacity ease;
     opacity: ${(p) => (p.isTop ? "0.4" : "0")};
   }
 `;
@@ -238,7 +240,7 @@ const HeaderContainer = styled.header<IHeader>`
 const HeaderContentsWrap = styled.div`
   display: flex;
   align-items: center;
-  max-width: 1600px;
+  max-width: 1440px;
   width: 100%;
   height: 100%;
   margin: 0 auto;

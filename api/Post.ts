@@ -78,3 +78,31 @@ export const REMOVE_POST = gql`
     removePost(id: $id)
   }
 `;
+
+export const CREATE_COMMENT = gql`
+  mutation createComment($comment: PostComment!, $postId: String!, $email: String) {
+    createComment(comment: $comment, postId: $postId, email: $email) {
+      id
+      name
+      contents
+      parent
+      class
+      email
+      createdAt
+    }
+  }
+`;
+
+export const GET_COMMENTS = gql`
+  query getComments($postId: String!) {
+    getComments(postId: $postId) {
+      id
+      name
+      contents
+      email
+      parent
+      class
+      createdAt
+    }
+  }
+`;

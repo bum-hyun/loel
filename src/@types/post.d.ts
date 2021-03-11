@@ -7,6 +7,7 @@ interface IPost {
   html2?: string;
   title?: string;
   image?: string[]
+  comments?: IComments[];
 }
 
 interface IReadPost extends IPost {
@@ -33,7 +34,19 @@ interface IOneself {
 }
 
 interface IWriteComment {
-  nickname: string;
+  name: string;
   password: string;
   contents: string;
+  parent?: number;
+  class: number;
+}
+
+interface IComments {
+  id: number | string;
+  name: string;
+  email?: string;
+  contents: string;
+  parent?: number;
+  class: number;
+  createdAt: string;
 }
