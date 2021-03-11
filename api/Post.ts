@@ -40,6 +40,7 @@ export const GET_POST = gql`
       category
       title
       html
+      html2
       markdown
       image
       createdAt
