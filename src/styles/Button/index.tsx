@@ -108,7 +108,7 @@ const size = {
   `,
   medium: css`
     padding: 0 16px;
-    height: 36px;
+    height: 34px;
     font-size: 16px;
   `,
   big: css`

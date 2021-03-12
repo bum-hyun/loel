@@ -449,6 +449,7 @@ export default css`
 
   .tui-editor-contents pre {
     margin: 16px 0 8px;
+    font-size: 14px;
   }
 
   .token.operator,

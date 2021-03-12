@@ -34,6 +34,7 @@ const WysiwygEditor = () => {
   const [image, setImage] = useState<string[]>([]);
   const [options, setOptions] = useState<OptionTypeBase[]>([]);
   const editorRef = React.useRef<EditorType>();
+  const imageUploadRef = React.useRef<HTMLInputElement | null>(null);
 
   useQuery(GET_CATEGORIES, {
     fetchPolicy: "cache-first",
@@ -103,6 +104,16 @@ const WysiwygEditor = () => {
     setImage(images);
   };
 
+  const clickUploadInput = () => {
+    if (!imageUploadRef.current) return;
+    imageUploadRef.current!.click();
+  };
+
+  const uploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    console.log(Object.entries(files!));
+  };
+
   useEffect(() => {
     setPost({ ...post, image });
   }, [image]);
@@ -111,9 +122,13 @@ const WysiwygEditor = () => {
     <Wrap>
       <RowWrap>
         <SelectWrap instanceId={"select"} value={options.filter((item) => item.value === post.category)} onChange={handleSelect} options={options} isClearable={true} />
-        <Button variant={id ? "warning" : "success"} height={38} onClick={Submit}>
-          {id ? "수정" : "등록"}
+        <Button onClick={clickUploadInput}>
+          이미지 업로드
+          <input ref={imageUploadRef} type={"file"} multiple={true} onChange={uploadFile} style={{ display: "none" }} />
         </Button>
+        <ButtonWrap variant={id ? "warning" : "success"} height={38} onClick={Submit}>
+          {id ? "수정" : "등록"}
+        </ButtonWrap>
       </RowWrap>
       <RowWrap>
         <TitleInput onChange={handleTitle} value={post.title} placeholder={"제목을 입력해주세요."} />
@@ -147,6 +162,7 @@ const RowWrap = styled.div`
 `;
 
 const SelectWrap = styled(Select)`
+  margin-right: 1rem;
   width: 300px;
   font-size: 0.875rem;
   z-index: 3;
@@ -154,6 +170,10 @@ const SelectWrap = styled(Select)`
   > div {
     border-color: #e5e5e5;
   }
+`;
+
+const ButtonWrap = styled(Button)`
+  margin-left: auto;
 `;
 
 const TitleInput = styled.input`
