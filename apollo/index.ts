@@ -4,8 +4,8 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 
 const httpLink = createHttpLink({
-  uri: process.env.NODE_ENV === "production" ? "https://api.loelblog.com/graphql" : "http://localhost:3301/graphql",
-  // uri: "https://api.loelblog.com/graphql",
+  // uri: process.env.NODE_ENV === "production" ? "https://api.loelblog.com/graphql" : "http://localhost:3301/graphql",
+  uri: "https://api.loelblog.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

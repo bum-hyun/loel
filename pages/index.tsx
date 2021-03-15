@@ -10,7 +10,7 @@ import { thumbnail, decodeHTML } from "@utils/common";
 const Home = () => {
   const router = useRouter();
 
-  const [posts, setPosts] = useState<IPosts[] | null>([]);
+  const [posts, setPosts] = useState<IReadPost[] | null>([]);
 
   const readPost = (link: string) => {
     router.push(link);
@@ -25,42 +25,22 @@ const Home = () => {
 
   return (
     <>
-      {posts &&
-        posts.map((item) => {
-          return (
-            <SectionWrap key={item.label}>
-              {item.items.length > 0 && (
-                <>
-                  <Title>{item.label.toUpperCase()}</Title>
-                  <CardWrapper>
-                    {item.items.map((item2) => {
-                      return (
-                        <Card
-                          key={item2.id}
-                          title={item2.title}
-                          onClick={() => readPost(`/post/${item2.id}`)}
-                          thumbnail={item2.image && item2.image!.length > 0 ? thumbnail(item2.image) : ""}
-                        >
-                          {decodeHTML(item2!)}
-                        </Card>
-                      );
-                    })}
-                  </CardWrapper>
-                </>
-              )}
-            </SectionWrap>
-          );
-        })}
+      <Title>전체 글</Title>
+      <CardWrapper>
+        {posts &&
+          posts.map((item) => {
+            return (
+              <Card key={item.id} title={item.title} onClick={() => readPost(`/post/${item.id}`)} thumbnail={item.image && item.image!.length > 0 ? thumbnail(item.image) : ""}>
+                {decodeHTML(item)}
+              </Card>
+            );
+          })}
+      </CardWrapper>
     </>
   );
 };
 
 export default DefaultLayout(Home);
-
-const SectionWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 const CardWrapper = styled.div`
   display: flex;

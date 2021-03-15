@@ -18,16 +18,6 @@ interface IReadPost extends IPost {
   user: IOneself
 }
 
-interface IPosts {
-  label: string;
-  items: IReadPost[];
-}
-
-interface IResponsePosts {
-  items: IReadPost[];
-  totalCount: number;
-}
-
 interface IOneself {
   email: string;
   name: string;
