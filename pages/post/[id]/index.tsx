@@ -251,7 +251,6 @@ const InputComment = styled.textarea`
   font-size: 1rem;
   line-height: 1.75;
   ${Border}
-
   resize: none;
 `;
 
