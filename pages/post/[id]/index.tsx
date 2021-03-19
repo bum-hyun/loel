@@ -22,6 +22,11 @@ interface Props extends GetServerSidePropsContext {
 
 const Post = ({ authority, post }: any) => {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   const id = post.id.toString();
 
   const [comments, setComments] = useState<IComments[] | null>(null);
