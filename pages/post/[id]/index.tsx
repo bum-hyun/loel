@@ -9,32 +9,23 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Button } from "styles";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_POST, REMOVE_POST, CREATE_COMMENT, GET_COMMENTS } from "@api/Post";
+import { REMOVE_POST, CREATE_COMMENT, GET_COMMENTS } from "@api/Post";
 import "prismjs/themes/prism.css";
 import { decodeHTMLForHeader, dateDisplay } from "@utils/common";
 import { css } from "@emotion/core";
+import service from "@utils/service";
 
 interface Props extends GetServerSidePropsContext {
   authority: boolean;
   authenticated: (state: boolean) => void;
 }
 
-const Post = ({ params, authority }: Props) => {
+const Post = ({ authority, post }: any) => {
   const router = useRouter();
+  const id = post.id.toString();
 
-  const { id } = (params as unknown) as IParams;
-
-  const [post, setPost] = useState<IReadPost | null>(null);
   const [comments, setComments] = useState<IComments[] | null>(null);
   const [comment, setComment] = useState<IWriteComment>({ name: "", password: "", contents: "", class: 0 });
-
-  useQuery(GET_POST, {
-    fetchPolicy: "cache-first",
-    variables: { id },
-    onCompleted: (data) => {
-      setPost(data.getPost);
-    },
-  });
 
   useQuery(GET_COMMENTS, {
     fetchPolicy: "cache-first",
@@ -56,7 +47,7 @@ const Post = ({ params, authority }: Props) => {
 
   const remove = async () => {
     await RemovePostMutation({
-      variables: { id },
+      variables: { id: id },
     });
   };
 
@@ -169,13 +160,25 @@ const Post = ({ params, authority }: Props) => {
   );
 };
 
-export async function getServerSideProps({ params }: Props) {
+export default DefaultLayout(Post);
+
+export async function getStaticPaths() {
+  const { data } = await service.get("/post");
+  const paths = data.map((item: any) => ({
+    params: { id: item.id.toString() },
+  }));
+
   return {
-    props: { params },
+    paths,
+    fallback: false,
   };
 }
 
-export default DefaultLayout(Post);
+export async function getStaticProps({ params }: any) {
+  const { data } = await service.get(`/post/${params.id}`);
+
+  return { props: { post: data } };
+}
 
 const Border = css`
   border: 1px solid #e4e4e4;
@@ -212,6 +215,7 @@ const InfoWrap = styled.div`
 `;
 
 const Author = styled.span`
+  margin-right: 10px;
   font-weight: 600;
 `;
 

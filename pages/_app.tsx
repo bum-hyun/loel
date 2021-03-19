@@ -3,12 +3,11 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { Global } from "@emotion/core";
 import { Reset } from "styles";
-import { ApolloProvider, useQuery } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/react-hooks";
 import client from "../apollo";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { GET_ALL_POSTS } from "@api/Post";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
@@ -52,17 +51,3 @@ const App = ({ Component, pageProps }: AppProps) => {
 };
 
 export default App;
-
-export async function getStaticPath() {
-  const { data } = useQuery(GET_ALL_POSTS, {
-    fetchPolicy: "cache-first",
-  });
-  const paths = data.getAllPosts.map((item: any) => ({
-    params: { id: item.id },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
