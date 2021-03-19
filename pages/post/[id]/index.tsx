@@ -170,14 +170,14 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
 export async function getStaticProps({ params }: any) {
   const { data } = await service.get(`/post/${params.id}`);
 
-  return { props: { post: data } };
+  return { props: { post: data }, revalidate: 1 };
 }
 
 const Border = css`
