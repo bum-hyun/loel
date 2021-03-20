@@ -10,7 +10,6 @@ const CheckList: React.FC = () => {
       <p>헤더 손보기</p>
       <p>댓글 시스템 구현</p>
       <p>인증 더 다듬기</p>
-      <p>다중 이미지 업로드</p>
     </Border>
   );
 };

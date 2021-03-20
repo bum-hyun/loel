@@ -2,7 +2,7 @@ import axios from "axios";
 
 const service = axios.create({
   baseURL: process.env.NODE_ENV === "development" ? "http://localhost:3301" : "https://api.loelblog.com",
-  timeout: 10000,
+  timeout: 100000,
 });
 
 service.interceptors.request.use(

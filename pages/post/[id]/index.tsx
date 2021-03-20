@@ -9,7 +9,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Button } from "styles";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { REMOVE_POST, CREATE_COMMENT, GET_COMMENTS } from "@api/Post";
+import { REMOVE_POST, CREATE_COMMENT, GET_COMMENTS, GET_ALL_POSTS } from "@api/Post";
 import "prismjs/themes/prism.css";
 import { decodeHTMLForHeader, dateDisplay } from "@utils/common";
 import { css } from "@emotion/core";
@@ -41,6 +41,7 @@ const Post = ({ authority, post }: any) => {
   });
 
   const [RemovePostMutation] = useMutation(REMOVE_POST, {
+    refetchQueries: [{ query: GET_ALL_POSTS }],
     onCompleted: () => {
       router.push(`/`);
     },

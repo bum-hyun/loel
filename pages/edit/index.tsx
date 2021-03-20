@@ -109,9 +109,23 @@ const WysiwygEditor = () => {
     imageUploadRef.current!.click();
   };
 
-  const uploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    console.log(Object.entries(files!));
+    const formData = new FormData();
+    if (files && files.length > 0) {
+      Array.from(files).forEach((item) => {
+        formData.append("images", item);
+      });
+    }
+    const { data } = await service.post("/upload", formData);
+    const instance = editorRef.current!.getInstance();
+    data.forEach((item: any) => {
+      instance.insertText(`![image](${item.contents})`);
+    });
+    const elements = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
+    const images: string[] = [];
+    elements.forEach((image) => images.push(image.src));
+    setImage(images);
   };
 
   useEffect(() => {
