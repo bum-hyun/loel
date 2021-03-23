@@ -4,6 +4,8 @@ import styled from "styles/styled";
 import Categories from "../components/Categories";
 import { GetServerSidePropsContext } from "next";
 import CheckList from "components/CheckList";
+import { Button } from "styles";
+import service from "@utils/service";
 
 interface Props extends GetServerSidePropsContext {
   authority: boolean;
@@ -11,6 +13,11 @@ interface Props extends GetServerSidePropsContext {
 }
 
 const DefaultLayout = (Component: (props: Props) => JSX.Element) => (props: Props) => {
+  const makeSitemap = async () => {
+    const result = await service.get("/sitemap/posts.xml");
+    console.log(result);
+  };
+
   return (
     <>
       <Header authority={props.authority} authenticated={props.authenticated} />
@@ -23,6 +30,7 @@ const DefaultLayout = (Component: (props: Props) => JSX.Element) => (props: Prop
           <RightWrap>
             <Categories />
             <CheckList />
+            {props.authority && <Button onClick={makeSitemap}>사이트맵 생성</Button>}
           </RightWrap>
         </Wrap>
       </Container>
