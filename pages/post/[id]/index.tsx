@@ -232,7 +232,7 @@ const ContentWrap = styled.article`
 
   img {
     display: block;
-    max-width: 600px;
+    max-width: 1092px;
   }
 `;
 
