@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
 import { Card } from "../src/styles";

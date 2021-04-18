@@ -85,23 +85,16 @@ const CardWrapper = styled.div`
   margin-right: -1rem;
 
   @media (min-width: 568px) {
-    > .card {
-      flex: 1 0 50%;
-      max-width: 50%;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    > .card {
+    > div {
       flex: 1 0 50%;
       max-width: 50%;
     }
   }
 
   @media (min-width: 1350px) {
-    > .card {
-      flex: 1 0 25%;
-      max-width: 25%;
+    > div {
+      flex: 1 0 33%;
+      max-width: 33%;
     }
   }
 `;
