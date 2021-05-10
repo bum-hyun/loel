@@ -18,6 +18,10 @@ const DefaultLayout = (Component: (props: Props) => JSX.Element) => (props: Prop
     console.log(result);
   };
 
+  const getData = async () => {
+    const result = await service.get("/dart");
+  };
+
   return (
     <>
       <Header authority={props.authority} authenticated={props.authenticated} />
@@ -28,6 +32,7 @@ const DefaultLayout = (Component: (props: Props) => JSX.Element) => (props: Prop
             <Component {...props} />
           </LeftWrap>
           <RightWrap>
+            <button onClick={getData}>버튼</button>
             <Categories />
             <CheckList />
             {props.authority && <Button onClick={makeSitemap}>사이트맵 생성</Button>}
