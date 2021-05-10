@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import styled from "styles/styled";
 import { DefaultLayout } from "layouts";
@@ -69,6 +69,11 @@ const Post = ({ authority, post }: any) => {
 
   const [CreateCommentMutation] = useMutation(CREATE_COMMENT, {
     refetchQueries: [{ query: GET_COMMENTS, variables: { postId: id } }],
+    awaitRefetchQueries: true,
+    update: (store, { data: { createComment } }) => {
+      const newComments = comments ? [createComment, ...comments] : null;
+      setComments(newComments);
+    },
     onCompleted: () => {
       setComment({ name: "", password: "", contents: "", class: 0 });
     },
@@ -91,7 +96,7 @@ const Post = ({ authority, post }: any) => {
 
     const user = JSON.parse(localStorage.getItem("user") as string);
     await CreateCommentMutation({
-      variables: { comment, postId: id, email: user.email },
+      variables: { comment, postId: id, email: user && user.email ? user.email : "" },
     });
   };
 
