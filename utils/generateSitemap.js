@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const getDate = new Date().toISOString();
 
-export const generateSitemap = async () => {
+const generateSitemap = async () => {
   const { data } = await axios.get("https://api.loelblog.com/post");
   const DOMAIN = "https://loelblog.com";
 
