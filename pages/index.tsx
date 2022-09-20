@@ -25,7 +25,7 @@ const Home = () => {
 
   return (
     <>
-      <Title>전체 글</Title>
+      <Title>All Posts</Title>
       <CardWrapper>
         {posts &&
           posts.map((item) => {

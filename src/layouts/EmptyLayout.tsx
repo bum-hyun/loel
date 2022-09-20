@@ -32,7 +32,7 @@ const Container = styled.div`
 const Background = styled.div`
   width: 100%;
   padding-top: 35%;
-  background-image: url("https://images.loelblog.com/original/background.jpg");
+  background-image: url("/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
