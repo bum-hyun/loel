@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { gql } from \"apollo-boost\";\nexport const GET_CATEGORIES = gql`\n  query getCategories {\n    getCategories {\n      category\n      link\n      order\n      parent\n      isUse\n    }\n  }\n`;","map":null,"metadata":{},"sourceType":"module"}
