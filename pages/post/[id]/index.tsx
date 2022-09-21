@@ -175,9 +175,11 @@ export default DefaultLayout(Post);
 
 export async function getStaticPaths() {
   const { data } = await service.get("/post");
-  const paths = data.map((item: any) => ({
-    params: { id: item.id.toString() },
-  }));
+  const paths = !data
+    ? []
+    : data.map((item: any) => ({
+        params: { id: item.id.toString() },
+      }));
 
   return {
     paths,
