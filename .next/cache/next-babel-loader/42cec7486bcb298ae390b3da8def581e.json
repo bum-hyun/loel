@@ -1,1 +1,0 @@
-{"ast":null,"code":"import styled from \"@emotion/styled\";\nexport var theme = {\n  light: {\n    COLOR: {\n      primary: \"#333333\"\n    }\n  }\n};\nexport default styled;","map":null,"metadata":{},"sourceType":"module"}
