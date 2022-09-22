@@ -38,8 +38,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta property="og:description" content="음식과 여행을 좋아하는 개발자의 블로그 입니다." />
         <meta property="og:image" content="/background.jpg" />
         <meta name="robots" content="index, follow" />
-        <meta name="naver-site-verification" content="c55244531565e6ec1132ec37024546d5914181d7" />
-        <meta name="google-site-verification" content="Yy6-Sy6XRLnTkTIKXHteilEWWr1AJLLcQGxwvilrGow" />
         <title>Loel's Blog</title>
       </Head>
       <Global styles={Reset} />
