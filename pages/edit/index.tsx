@@ -40,7 +40,7 @@ const WysiwygEditor = () => {
     fetchPolicy: "cache-first",
     onCompleted: (data) => {
       const dummy = data.getCategories.reduce((acc: OptionTypeBase[], cur: ICategoryWithChildren) => {
-        acc.push({ value: cur.category.toLowerCase(), label: cur.category });
+        acc.push({ value: cur.category, label: cur.name });
         return acc;
       }, []);
       setOptions(dummy);
@@ -135,7 +135,7 @@ const WysiwygEditor = () => {
   return (
     <Wrap>
       <RowWrap>
-        <SelectWrap instanceId={"select"} value={options.filter((item) => item.value === post.category)} onChange={handleSelect} options={options} isClearable={true} />
+        <SelectWrap instanceId={"select"} options={options} value={options.filter((item) => item.value === post.category)} onChange={handleSelect} isClearable={true} />
         <Button onClick={clickUploadInput}>
           이미지 업로드
           <input ref={imageUploadRef} type={"file"} multiple={true} onChange={uploadFile} style={{ display: "none" }} />

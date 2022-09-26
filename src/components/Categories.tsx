@@ -36,20 +36,20 @@ const Categories: React.FC = () => {
             if (!item.children) {
               return (
                 <ParentCategory key={item.category}>
-                  <Link href={`/${item.link}`}>{item.category}</Link>
+                  <Link href={`/${item.category}`}>{item.name}</Link>
                 </ParentCategory>
               );
             } else {
               return (
                 <div key={item.category}>
                   <ParentCategory key={item.category}>
-                    <Link href={`/${item.link}`}>{item.category}</Link>
+                    <Link href={`/${item.category}`}>{item.name}</Link>
                   </ParentCategory>
                   <ChildCategoryWrap>
                     {item.children.map((item2) => {
                       return (
                         <ChildCategory key={item2.category}>
-                          <Link href={`/${item2.link}`}>{item2.category}</Link>
+                          <Link href={`/${item2.category}`}>{item2.name}</Link>
                         </ChildCategory>
                       );
                     })}
@@ -66,7 +66,7 @@ const Categories: React.FC = () => {
 export default Categories;
 
 const Border = styled.div`
-  padding: 3rem;
+  padding: 1rem;
   width: 100%;
 `;
 
