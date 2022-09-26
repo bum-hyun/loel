@@ -34,7 +34,7 @@ export default DefaultLayout;
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 1440px;
+  max-width: 968px;
 `;
 
 const Background = styled.div`
@@ -48,7 +48,7 @@ const Background = styled.div`
 
 const Wrap = styled.section`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0;
 `;
 
 const LeftWrap = styled.div`
@@ -62,7 +62,7 @@ const RightWrap = styled.div`
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    flex: 0 0 300px;
+    flex: 0 0 200px;
     width: 100%;
     height: 100%;
     margin-left: 1rem;

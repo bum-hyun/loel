@@ -81,8 +81,7 @@ const SectionWrap = styled.div`
 const CardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  margin-left: -0.5rem;
 
   @media (min-width: 568px) {
     > div {
@@ -100,7 +99,7 @@ const CardWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  padding: 10px;
+  padding: 10px 0;
   font-size: 1.5rem;
   font-weight: bold;
   color: #000;

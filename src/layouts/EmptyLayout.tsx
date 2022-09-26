@@ -26,7 +26,7 @@ export default EmptyLayout;
 
 const Container = styled.div`
   margin: 0 auto;
-  max-width: 1440px;
+  max-width: 968px;
 `;
 
 const Background = styled.div`
@@ -40,5 +40,5 @@ const Background = styled.div`
 
 const Wrap = styled.section`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0;
 `;

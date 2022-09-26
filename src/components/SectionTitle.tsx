@@ -17,7 +17,7 @@ const SectionTitle: React.FC<ISectionTitle> = ({ title }) => {
 export default SectionTitle;
 
 const Title = styled(Link)`
-  padding: 10px;
+  padding: 10px 0;
   font-size: 1.5rem;
   font-weight: bold;
   color: #000;

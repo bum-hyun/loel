@@ -32,13 +32,13 @@ const Post = ({ authority, post }: any) => {
   const [comments, setComments] = useState<IComments[] | null>(null);
   const [comment, setComment] = useState<IWriteComment>({ name: "", password: "", contents: "", class: 0 });
 
-  useQuery(GET_COMMENTS, {
-    fetchPolicy: "cache-first",
-    variables: { postId: id },
-    onCompleted: (data) => {
-      setComments(data.getComments);
-    },
-  });
+  // useQuery(GET_COMMENTS, {
+  //   fetchPolicy: "cache-first",
+  //   variables: { postId: id },
+  //   onCompleted: (data) => {
+  //     setComments(data.getComments);
+  //   },
+  // });
 
   const [RemovePostMutation] = useMutation(REMOVE_POST, {
     refetchQueries: [{ query: GET_ALL_POSTS }],

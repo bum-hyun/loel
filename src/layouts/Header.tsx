@@ -160,9 +160,7 @@ const Header: React.FC<ExtendProps> = ({ authority, authenticated }) => {
                 </Button>
               </LoginButtonWrap>
             </LoginModalBody>
-            <LoginModalFooter>
-              계정이 없다면? <Register onClick={changeToRegisterModal}>회원등록</Register>
-            </LoginModalFooter>
+            <LoginModalFooter>{/*계정이 없다면? <Register onClick={changeToRegisterModal}>회원등록</Register>*/}</LoginModalFooter>
           </LoginModal>
         </LoginModalContainer>
       )}
@@ -228,7 +226,7 @@ const HeaderContainer = styled.header<IHeader>`
     pointer-events: none;
     position: absolute;
     top: 0;
-    max-width: 1440px;
+    max-width: 968px;
     width: 100%;
     z-index: 0;
     transform: translateX(-50%);
@@ -240,11 +238,10 @@ const HeaderContainer = styled.header<IHeader>`
 const HeaderContentsWrap = styled.div`
   display: flex;
   align-items: center;
-  max-width: 1440px;
+  max-width: 968px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  padding: 0 80px;
   font-weight: 400;
 `;
 
@@ -268,6 +265,7 @@ const Menus = styled.nav`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding-right: 20px;
   z-index: 1;
 `;
 

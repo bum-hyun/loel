@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styles/styled";
 import { css } from "@emotion/core";
 
@@ -40,7 +40,7 @@ const LongSentence = css`
 `;
 
 const Outer = styled.div`
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
 `;
 
@@ -48,7 +48,7 @@ const Wrap = styled.div<ICardWrap>`
   position: relative;
   width: 100%;
   max-width: 100%;
-  height: calc(495px - 2rem);
+  height: calc(362px - 2rem);
   font-size: 1rem;
   line-height: 1.2;
   background-color: #fff;
@@ -65,7 +65,7 @@ const Wrap = styled.div<ICardWrap>`
 `;
 
 const CardHeader = styled.div`
-  padding: 1.2rem;
+  padding: 1rem;
   font-weight: bold;
   border-bottom: 1px solid #e6e6e6;
   white-space: nowrap;
@@ -73,11 +73,11 @@ const CardHeader = styled.div`
 `;
 
 const MaxLine = css`
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 3 !important;
 `;
 
 const CardBody = styled.div<{ expandable?: string }>`
-  padding: 1.25rem;
+  padding: 1rem;
 
   p {
     display: -webkit-box;
@@ -88,6 +88,7 @@ const CardBody = styled.div<{ expandable?: string }>`
     ${LongSentence}
     word-break: break-word;
     overflow-wrap: break-word;
+    -webkit-line-clamp: 11;
   }
 `;
 
@@ -98,7 +99,7 @@ const ThumbnailWrap = styled.div`
 
   img {
     width: 100%;
-    height: 300px;
+    height: 180px;
     object-fit: cover;
   }
 `;
