@@ -64,8 +64,14 @@ const WysiwygEditor = () => {
 
     const instance = editorRef.current.getInstance();
     const html2 = document.querySelector(".tui-editor-contents")!.innerHTML;
+    const images = document.querySelectorAll(".tui-editor-contents img") as NodeListOf<HTMLImageElement>;
 
-    setPost({ ...post, html: instance.getHtml(), html2, markdown: instance.getMarkdown() });
+    if (images.length === 0) {
+      setPost({ ...post, image: [], html: instance.getHtml(), html2, markdown: instance.getMarkdown() });
+      setImage([]);
+    } else {
+      setPost({ ...post, html: instance.getHtml(), html2, markdown: instance.getMarkdown() });
+    }
   };
 
   const handleSelect = (newValue: ValueType<OptionTypeBase, false>) => {

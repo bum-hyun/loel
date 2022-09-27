@@ -226,7 +226,6 @@ const HeaderContainer = styled.header<IHeader>`
     pointer-events: none;
     position: absolute;
     top: 0;
-    max-width: 968px;
     width: 100%;
     z-index: 0;
     transform: translateX(-50%);

@@ -32,10 +32,7 @@ const DefaultLayout = (Component: (props: Props) => JSX.Element) => (props: Prop
 
 export default DefaultLayout;
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 968px;
-`;
+const Container = styled.div``;
 
 const Background = styled.div`
   width: 100%;
@@ -47,8 +44,10 @@ const Background = styled.div`
 `;
 
 const Wrap = styled.section`
+  max-width: 968px;
   display: flex;
-  padding: 1rem 0;
+  margin: 0 auto;
+  padding: 0.5rem 0 1rem;
 `;
 
 const LeftWrap = styled.div`

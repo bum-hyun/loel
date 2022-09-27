@@ -81,6 +81,7 @@ const SectionWrap = styled.div`
 const CardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
   margin-left: -0.5rem;
 
   @media (min-width: 568px) {
@@ -110,8 +111,8 @@ const Empty = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1.625rem;
-  width: 100%;
+  margin: 1rem 0.5rem;
+  max-width: 100% !important;
   height: 300px;
   border: 1px solid #aeaeae;
   border-radius: 4px;
