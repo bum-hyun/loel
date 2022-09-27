@@ -8,7 +8,7 @@ import { LOGIN, REGISTER } from "@api/User";
 import cookie from "js-cookie";
 
 const menus: { label: string; link: string; authority?: boolean }[] = [
-  { label: "Home", link: "/" },
+  { label: "홈", link: "/" },
   { label: "Edit", link: "/edit", authority: true },
   { label: "Menu", link: "#", authority: true },
   { label: "Guide", link: "/guide", authority: true },
@@ -114,8 +114,8 @@ const Header: React.FC<ExtendProps> = ({ authority, authenticated }) => {
   return (
     <HeaderContainer isTop={isTop}>
       <HeaderContentsWrap>
-        <Logo />
-        <Center />
+        {/*<Logo />*/}
+        {/*<Center />*/}
         <Menus>
           {menus.map((item, index) => {
             if (authority) {

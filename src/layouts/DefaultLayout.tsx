@@ -41,6 +41,10 @@ const Background = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+
+  @media (min-width: 1024px) {
+    padding-top: 380px;
+  }
 `;
 
 const Wrap = styled.section`
