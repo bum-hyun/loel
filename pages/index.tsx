@@ -5,7 +5,7 @@ import { Card } from "../src/styles";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "@api/Post";
-import { thumbnail, decodeHTML } from "@utils/common";
+import { getThumbnail, decodeHTML } from "@utils/common";
 
 const Home = () => {
   const router = useRouter();
@@ -30,7 +30,7 @@ const Home = () => {
         {posts &&
           posts.map((item) => {
             return (
-              <Card key={item.id} title={item.title} onClick={() => readPost(`/post/${item.id}`)} thumbnail={item.image && item.image!.length > 0 ? thumbnail(item.image) : ""}>
+              <Card key={item.id} title={item.title} onClick={() => readPost(`/post/${item.id}`)} thumbnail={getThumbnail(item.html)}>
                 {decodeHTML(item)}
               </Card>
             );

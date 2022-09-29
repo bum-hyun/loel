@@ -1,12 +1,42 @@
 import dayjs from "dayjs";
 
-export const thumbnail = (images: string[]) => {
-  return images[0].replace(/\/original\//, "/thumb/");
+const getYoutubeId = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const idContainer = doc.querySelectorAll("[data-language='youtube']")[0];
+  if (idContainer) {
+    return { id: idContainer.textContent, html: doc.body.innerHTML };
+  } else {
+    return null;
+  }
+};
+
+export const getThumbnail = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const thumbnailTarget = doc.querySelectorAll("img, [data-language='youtube']")[0];
+  if (thumbnailTarget) {
+    if (thumbnailTarget.nodeName === "IMG") {
+      return thumbnailTarget.getAttribute("src")!.replace(/\/contents\//, "/thumb/");
+    } else {
+      return `https://img.youtube.com/vi/${thumbnailTarget.textContent}/0.jpg`;
+    }
+  } else {
+    return null;
+  }
 };
 
 export const decodeHTML = (item: IReadPost) => {
-  const content = item.html!.replace(/(<([^>]+)>)/gi, "");
-  if (item.image && item.image.length > 0) {
+  let html: string;
+  const youtubeId = getYoutubeId(item.html) ? getYoutubeId(item.html)!.id : "";
+
+  if (youtubeId) {
+    html = getYoutubeId(item.html)!.html;
+  } else {
+    html = item.html;
+  }
+  const content = html.replace(/(<([^>]+)>)/gi, "");
+  if (getThumbnail(html)) {
     return content.substring(0, 150);
   } else {
     return content.substring(0, 500);

@@ -8,7 +8,7 @@ import EmptyBox from "styles/Icon/EmptyBox";
 import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_CATEGORY_POSTS } from "@api/Post";
-import { thumbnail, decodeHTML } from "@utils/common";
+import { getThumbnail, decodeHTML } from "@utils/common";
 
 const Posts = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
@@ -48,7 +48,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
           {posts &&
             posts.map((item: IReadPost) => {
               return (
-                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={item.image && item.image!.length > 0 ? thumbnail(item.image) : ""}>
+                <Card onClick={() => readPost(`/post/${item.id}`)} key={item.id} title={item.title} thumbnail={getThumbnail(item.html)}>
                   {decodeHTML(item!)}
                 </Card>
               );

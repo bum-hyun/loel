@@ -239,6 +239,19 @@ const ContentWrap = styled.article`
     display: block;
     max-width: 768px;
   }
+  
+  .language-youtube div {
+    position: relative;
+    padding-top 56.25%;
+  }
+  
+  .language-youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const EditWrap = styled.div`

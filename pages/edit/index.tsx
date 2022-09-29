@@ -94,9 +94,23 @@ const WysiwygEditor = () => {
   });
 
   const Submit = async () => {
-    await EditPostMutation({
-      variables: id ? { id, input: post } : { input: post },
-    });
+    if (!editorRef.current) {
+      return;
+    }
+
+    const instance = editorRef.current.getInstance();
+    const html2 = document.querySelector(".tui-editor-contents")!.innerHTML;
+
+    if (post.html2 !== html2) {
+      const newPost = { ...post, html: instance.getHtml(), html2, markdown: instance.getMarkdown() };
+      await EditPostMutation({
+        variables: id ? { id, input: newPost } : { input: newPost },
+      });
+    } else {
+      await EditPostMutation({
+        variables: id ? { id, input: post } : { input: post },
+      });
+    }
   };
 
   const addImageBlobHook = async (blob: File | Blob, callback: (url: string, altText: string) => void) => {
@@ -172,6 +186,19 @@ export default EmptyLayout(WysiwygEditor);
 
 const Wrap = styled.div`
   width: 100%;
+    
+  .language-youtube div {
+    position: relative;
+    padding-top 56.25%;
+  }
+  
+  .language-youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const RowWrap = styled.div`

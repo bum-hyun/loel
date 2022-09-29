@@ -5,7 +5,7 @@ import { css } from "@emotion/core";
 interface ICard {
   title?: string;
   width?: number;
-  thumbnail?: string;
+  thumbnail: string | null;
   children: React.ReactNode;
   onClick?: () => void;
 }
@@ -76,7 +76,7 @@ const MaxLine = css`
   -webkit-line-clamp: 3 !important;
 `;
 
-const CardBody = styled.div<{ expandable?: string }>`
+const CardBody = styled.div<{ expandable: string | null }>`
   padding: 1rem;
 
   p {

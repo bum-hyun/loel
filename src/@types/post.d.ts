@@ -1,17 +1,16 @@
 interface IPost {
-  id?: string;
-  email?: string;
-  category?: string | null;
-  html?: string;
-  markdown?: string;
-  html2?: string;
-  title?: string;
+  id?: string | number;
+  email: string;
+  category: string | null;
+  html: string;
+  markdown: string;
+  html2: string;
+  title: string;
   image?: string[]
   comments?: IComments[];
 }
 
 interface IReadPost extends IPost {
-  id: number;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
