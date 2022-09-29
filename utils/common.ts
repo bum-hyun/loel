@@ -5,7 +5,9 @@ const getYoutubeId = (html: string) => {
   const doc = parser.parseFromString(html, "text/html");
   const idContainer = doc.querySelectorAll("[data-language='youtube']")[0];
   if (idContainer) {
-    return { id: idContainer.textContent, html: doc.body.innerHTML };
+    const id = idContainer.textContent;
+    idContainer.textContent = "";
+    return { id, html: doc.body.innerHTML };
   } else {
     return null;
   }
@@ -54,4 +56,13 @@ export const dateDisplay = (date: string) => {
   const dayGap = nowDate.getDate() - compareDate.getDate();
 
   return dayGap > 7 ? dayjs(date).format("YYYY년 MM월 DD일 hh시 mm분 ss초") : dayjs(date).fromNow();
+};
+
+export const categoryName = (category: string) => {
+  const categories = [
+    { category: "life", name: "생활" },
+    { category: "investment", name: "주식" },
+    { category: "gourmet", name: "음식" },
+  ];
+  return categories.find((item) => item.category === category)!.name;
 };

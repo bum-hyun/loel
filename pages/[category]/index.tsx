@@ -8,12 +8,12 @@ import EmptyBox from "styles/Icon/EmptyBox";
 import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_CATEGORY_POSTS } from "@api/Post";
-import { getThumbnail, decodeHTML } from "@utils/common";
+import { getThumbnail, decodeHTML, categoryName } from "@utils/common";
 
 const Posts = ({ params }: GetServerSidePropsContext) => {
   const router = useRouter();
 
-  const { category } = (params as unknown) as IParams;
+  const { category } = params as IParams;
 
   const [posts, setPosts] = useState<IReadPost[] | null>([]);
 
@@ -43,7 +43,7 @@ const Posts = ({ params }: GetServerSidePropsContext) => {
         <title>{`Loel's Blog - ${category}`}</title>
       </Head>
       <SectionWrap>
-        <Title>{category?.toUpperCase()}</Title>
+        <Title>{categoryName(category!)}</Title>
         <CardWrapper>
           {posts &&
             posts.map((item: IReadPost) => {
