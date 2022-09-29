@@ -12,8 +12,10 @@ const Guide = () => {
           <Card title={"써보겠습니다아아아아아아아아아아아아길게길게한번써보겠습니"} thumbnail={"https://images.loelblog.com/thumb/1614754054423background.jpg"}>
             길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아. 길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.
           </Card>
-          <Card title={"Hello"}>길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.</Card>
-          <Card>길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.</Card>
+          <Card title={"Hello"} thumbnail={null}>
+            길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.
+          </Card>
+          <Card thumbnail={null}>길게길게 한번 써보겠습니다아아. 아아아아. 아아아아아아.</Card>
         </Wrap>
       </Component>
       <Component>

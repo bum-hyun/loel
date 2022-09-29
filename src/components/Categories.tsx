@@ -27,6 +27,10 @@ const Categories: React.FC = () => {
     },
   });
 
+  const selectedCategory = (category: string) => {
+    return category === location.pathname.replace("/", "");
+  };
+
   return (
     <Border>
       <All href={"/"}>전체글 보기</All>
@@ -36,20 +40,26 @@ const Categories: React.FC = () => {
             if (!item.children) {
               return (
                 <ParentCategory key={item.category}>
-                  <Link href={`/${item.category}`}>{item.name}</Link>
+                  <Link href={`/${item.category}`} selected={selectedCategory(item.category)}>
+                    {item.name}
+                  </Link>
                 </ParentCategory>
               );
             } else {
               return (
                 <div key={item.category}>
                   <ParentCategory key={item.category}>
-                    <Link href={`/${item.category}`}>{item.name}</Link>
+                    <Link href={`/${item.category}`} selected={selectedCategory(item.category)}>
+                      {item.name}
+                    </Link>
                   </ParentCategory>
                   <ChildCategoryWrap>
                     {item.children.map((item2) => {
                       return (
                         <ChildCategory key={item2.category}>
-                          <Link href={`/${item2.category}`}>{item2.name}</Link>
+                          <Link href={`/${item2.category}`} selected={selectedCategory(item.category)}>
+                            {item2.name}
+                          </Link>
                         </ChildCategory>
                       );
                     })}
@@ -110,6 +120,7 @@ const ChildCategory = styled.li`
   }
 `;
 
-const Link = styled.a`
+const Link = styled.a<{ selected: boolean }>`
   display: flex;
+  ${(props) => props.selected && "font-weight: bold"}
 `;
